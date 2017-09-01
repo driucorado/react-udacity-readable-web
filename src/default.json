@@ -1,0 +1,5 @@
+{
+	"api" : {
+		"endpoint" : "localhost:5001"
+	}
+}
