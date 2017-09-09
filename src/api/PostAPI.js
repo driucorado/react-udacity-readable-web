@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
 //endpoint readable api
-const endpoint = "localhost:5001"
+const api = "http://localhost:5001"
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = 'gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU='
@@ -24,9 +24,9 @@ export const getById = (id) =>
     .then(res => res.json())
     .then(data => data.book)
 
-export const deletePost = (id) =>
+export const deletePost = (id) => {
   const postUpdate = {}
-  fetch(`${api}/posts/${id}`, {
+  return fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers: {
       ...headers,
@@ -35,13 +35,14 @@ export const deletePost = (id) =>
     body: JSON.stringify(postUpdate)
   }).then(res => res.json())
     .then(data => data.books)
+}
 
-export const  updatePostDetails = (title, body) =>
+export const  updatePostDetails = (id, title, body) => {
   const postUpdate = Object.assign({
   	title: null,
   	body: null
   }, {title: title, body: body})
-  fetch(`${api}/posts/${id}`, {
+  return fetch(`${api}/posts/${id}`, {
     method: 'PUT',
     headers: {
       ...headers,
@@ -50,12 +51,13 @@ export const  updatePostDetails = (title, body) =>
     body: JSON.stringify(postUpdate)
   }).then(res => res.json())
     .then(data => data.books)
+}
 
-export const  ratingPost = (postId, option) =>
+export const  ratingPost = (id, option) => {
   const ratingPostObject = Object.assign({
   	option: null
   }, {option: option})
-  fetch(`${api}/posts/${id}`, {
+  return fetch(`${api}/posts/${id}`, {
     method: 'POST',
     headers: {
       ...headers,
@@ -64,18 +66,19 @@ export const  ratingPost = (postId, option) =>
     body: JSON.stringify(ratingPostObject)
   }).then(res => res.json())
     .then(data => data.books)
+}
 
 export const getByCategory = (category) =>
-  fetch(`${category}/posts`, { headers })
+  fetch(`${api}/${category}/posts`, { headers })
     .then(res => res.json())
-    .then(data => data.book)
+    .then(data => data)
 
 export const getAll = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
     .then(data => data.books)
 
-export const add = (post) =>
+export const add = (post) => {
   const newPost = Object.assign({
   	id:uuid(),
   	timestamp:Date.now(),
@@ -84,7 +87,7 @@ export const add = (post) =>
   	author:null,
   	category:null
   }, post)
-  fetch(`${api}/posts`, {
+  return fetch(`${api}/posts`, {
     method: 'POST',
     headers: {
       ...headers,
@@ -93,5 +96,6 @@ export const add = (post) =>
     body: JSON.stringify(newPost)
   }).then(res => res.json())
     .then(data => data.books)
+}
 
 

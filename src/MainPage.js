@@ -1,26 +1,17 @@
 import React, { Component } from 'react';
-import * as CategoryApi from './api/CategoryApi'
 import MainLayout from './MainLayout'
+import Header from './Header'
+import {Link} from 'react-router-dom'
+import CategoryList from './Category/CategoryList'
 
 class MainPage extends Component {
-	state = {categories:[]}
-	componentDidMount() {
-		CategoryApi.getAll().then((categories) => {
-			this.setState({categories:categories})
-		})
-	}
-
 	render() {
-		const {categories} = this.state;
+		const {onSelectCategory} = this.props
 		return (
-			<MainLayout>
+			<MainLayout title="Readable" showTitle={true}>
 			<div className="container-fluid">
 				<div className="row">
-				 {categories.map((category) => (
-				 	<div className="col">
-				 		{category.name}
-				 	</div>
-				 ))}
+				<CategoryList onSelectCategory={onSelectCategory}  />
 				</div>
 			</div>
 			</MainLayout>
