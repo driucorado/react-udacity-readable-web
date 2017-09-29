@@ -16,13 +16,13 @@ const headers = {
 export const getCommentsByPost = (id) => 
   fetch(`${api}/posts/${id}/comments`, { headers })
     .then(res => res.json())
-    .then(data => data.book)
+    .then(data => data)
 
 
 export const getById = (id) =>
   fetch(`${api}/posts/${id}`, { headers })
     .then(res => res.json())
-    .then(data => data.book)
+    .then(data => data)
 
 export const deletePost = (id) => {
   const postUpdate = {}
@@ -34,10 +34,10 @@ export const deletePost = (id) => {
     },
     body: JSON.stringify(postUpdate)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
 }
 
-export const  updatePostDetails = (id, title, body) => {
+export const  updatePostDetails = ({id, title, body}) => {
   const postUpdate = Object.assign({
   	title: null,
   	body: null
@@ -50,7 +50,7 @@ export const  updatePostDetails = (id, title, body) => {
     },
     body: JSON.stringify(postUpdate)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
 }
 
 export const  ratingPost = (id, option) => {
@@ -65,7 +65,7 @@ export const  ratingPost = (id, option) => {
     },
     body: JSON.stringify(ratingPostObject)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
 }
 
 export const getByCategory = (category) =>
@@ -95,7 +95,7 @@ export const add = (post) => {
     },
     body: JSON.stringify(newPost)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
 }
 
 

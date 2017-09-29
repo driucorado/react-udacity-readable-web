@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 //endpoint readable api
-const endpoint = "localhost:5001"
+const api = "http://localhost:5001"
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = 'gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU='
@@ -12,26 +12,27 @@ const headers = {
   'Authorization': token
 }
 
-export const getCommentsByPost = (id) => 
-  fetch(`${api}/posts/${id}/comments`, { headers })
+export const getCommentsByPost = (id) => {
+  return fetch(`${api}/posts/${id}/comments`, { headers })
     .then(res => res.json())
-    .then(data => data.book)
+    .then(data => data)
+  }
 
 export const getById = (id) =>
   fetch(`${api}/comments/${id}`, { headers })
     .then(res => res.json())
-    .then(data => data.book)
-    
+    .then(data => data)
+
 /* 
  * 
  * @var postId id  
  * @var option
  */
-export const ratingComment = (postId, option) =>
+export const ratingComment = (postId, option) => {
   const ratingPostObject = Object.assign({
     option: null
   }, {option: option})
-  fetch(`${api}/comments/${postId}`, {
+  return fetch(`${api}/comments/${postId}`, {
     method: 'POST',
     headers: {
       ...headers,
@@ -39,15 +40,16 @@ export const ratingComment = (postId, option) =>
     },
     body: JSON.stringify(ratingPostObject)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
+}
 
 /*
  * delete post
  * @var id delete post 
  */
-export const deletePost = (id) =>
+export const deleteComment = (id) => {
   const postUpdate = {}
-  fetch(`${api}/comments/${id}`, {
+  return fetch(`${api}/comments/${id}`, {
     method: 'DELETE',
     headers: {
       ...headers,
@@ -55,25 +57,41 @@ export const deletePost = (id) =>
     },
     body: JSON.stringify(postUpdate)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
+}
 
-/* @var comment create new comment */
-export const add = (comment) =>
-  const newPost = Object.assign({
-  	id:uuid(),
-  	timestamp:Date.now(),
-  	body:null,
-  	author:null,
-  	parentId:null
-  }, post)
-  fetch(`${api}/comments`, {
+export const update = (comment) => {
+  const newComment = Object.assign({
+    body:null
+  }, comment)
+  return fetch(`${api}/comments/${comment.id}`, {
     method: 'POST',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(newPost)
+    body: JSON.stringify(newComment)
   }).then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
+}
 
+/* @var comment create new comment */
+export const add = (comment) => {
+  const newComment = Object.assign({
+  	id:uuid(),
+  	timestamp:Date.now(),
+  	body:null,
+  	author:null,
+  	parentId:null
+  }, comment)
+  return fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newComment)
+  }).then(res => res.json())
+    .then(data => data)
+}
 

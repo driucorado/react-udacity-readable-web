@@ -4,7 +4,6 @@ import {fetchCategories} from './actions'
 import CategoryItem from './CategoryItem'
 
 class CategoryList extends Component {
-	state = {categories:[]}
 
 	componentDidMount() {
 		this.props.fetchCategories()
@@ -13,11 +12,14 @@ class CategoryList extends Component {
 	render() {
 		const {categories} = this.props;
 		return (
-			<div className="category-list">
-			<ul>
+			<div className="row category-list">
 			{categories.map((category) => (
-				 	<CategoryItem key={category.path} path={category.path} name={category.name} />
-			))}</ul></div>)
+				 	<CategoryItem 
+				 	key={category.path} 
+				 	path={category.path} 
+				 	name={category.name} />
+			))}
+			</div>)
 	}
 }
 
@@ -29,9 +31,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const  mapStateToProps = ({main}) => {
-	return {
-		categories: main.categories 
-	}
+	return {categories : main.categories}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

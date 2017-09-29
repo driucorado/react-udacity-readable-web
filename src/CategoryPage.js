@@ -1,30 +1,23 @@
 import React, { Component } from 'react'
 import MainLayout from './MainLayout'
-// import {fetchPosts} from './Post/actions'
-import PostItem from './Post/PostItem'
+import {fetchPosts} from './Category/actions'
 import {connect} from 'react-redux'
-
+import {Link} from 'react-router-dom'
 import PostList from './Post/PostList'
-
-import PropTypes from 'prop-types'
-import {fetchWikiInfo} from './Category/actions'
 
 
 class CategoryPage extends Component {
-	state =  {title: '', posts: []}
 	componentDidMount() {
 		const {cat} = this.props.match.params
-		// this.props.fetchWikiInfo(cat)
-		this.setState({
-			title:cat
-		})
+		this.props.fetchPosts(cat)
 	}
 
 	render() {
-		const {title, posts} = this.state
+		const {posts, title } = this.props
 		return (
-			<MainLayout title={title}>
-				<PostList cat={title}/>
+			<MainLayout mainClass={`category_v01`} title={title? title: ""}>
+				<PostList posts={posts} />
+				<Link to={`/cat/${title}/posts`}>Add</Link>
 			</MainLayout>)
 	}
 
@@ -34,12 +27,14 @@ class CategoryPage extends Component {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		//fetchWikiInfo: (data) => dispatch(fetchWikiInfo(data))
+		fetchPosts: (category) => dispatch(fetchPosts(category))
 	}
 }
 
-const  mapStateToProps = ({main}) => {
-	return {}
+const  mapStateToProps = ({category}) => {
+	return {posts: category.posts,
+		title: category.title
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage)

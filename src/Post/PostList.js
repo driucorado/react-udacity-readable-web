@@ -3,41 +3,44 @@ import PostItem from './PostItem'
 
 import {fetchPosts} from './actions'
 
+import {Link} from 'react-router-dom'
+
 import {connect} from 'react-redux'
 
 class PostList extends Component {
-	state =  {posts: []}
-
-	componentDidMount() {
-		const {cat} = this.props.cat
-		this.props.fetchPosts(cat)
-	}
 
 	render() {
 		const {posts} = this.props
 		return(<div className="post-list">
-					<ul>
-					{posts.map((post) => (
-						<li key={post.id}>
-							<PostItem title={post.title} content={post.body}/>
-						</li>
-					))}
-					</ul>
+					<div className="table-responsive">
+						<table className="table table-striped">
+							<thead>
+				                <tr>
+				                  <th>Score</th>
+				                  <th>Title</th>
+				                  <th>Body</th>
+				                  <th>Options</th>
+				                </tr>
+				             </thead>
+				             <tbody>
+				             {posts.map((post) => (
+								<tr key={post.id}>
+								  <td>{post.voteScore}</td>
+				                  <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
+				                  <td>{post.body}</td>
+				                  <td>
+				                  	<div className="form-group">
+				                  	<input type="button" className="btn" value="up"/>
+				                  	<input type="button" className="btn" value="down"/>
+				                  	</div>
+				                  </td>
+				                </tr>
+							))} 
+				              </tbody>
+						</table>
+					</div>
 			    </div>)
 	}
 }
 
-
-function mapDispatchToProps(dispatch) {
-	return {
-		fetchPosts:  (data) => dispatch(fetchPosts(data))
-	}
-}
-
-function  mapStateToProps({category}) {
-	return {
-		posts: category.posts
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+export default PostList

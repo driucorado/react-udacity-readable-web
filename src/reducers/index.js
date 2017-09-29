@@ -1,6 +1,9 @@
 import {category} from '../Category/reducers'
 import {post} from '../Post/reducers'
+import {user} from '../Login/reducers'
+import {comment} from '../Comment/reducers'
 import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 import {RECIEVE_CATEGORIES} from '../Category/actions'
 
 const initialState = {categories : []}
@@ -16,4 +19,4 @@ export function main(state = initialState, action) {
 }
 
 
-export default combineReducers({main, category, post})
+export default combineReducers({main, post, category, comment, user, routing: routerReducer})

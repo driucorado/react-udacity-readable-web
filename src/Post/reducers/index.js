@@ -1,12 +1,40 @@
 
-import {RECIEVE_POSTS, ADD_POST, UPDATE_POST, REMOVE_POST} from '../actions'
+import {ADD_POST, UPDATE_POST, REMOVE_POST, RECIEVE_POST, RECIEVE_COMMENTS, PREPARE_ADD_POST, CHANGE_TITLE_POST, CHANGE_BODY_POST} from '../actions'
+import {ADD_COMMENT, REMOVE_COMMENT, VOTE_COMMENT} from '../../Comment/actions'
 
-const initialState = {}
+const initialState = {showSaved: false, post: {}, comments: []}
 
 export function post(state = initialState, action) {
+	const {post} = action
 	switch(action.type) {
-		case RECIEVE_POSTS:
-			return {...state, posts:action.posts}
+		case RECIEVE_POST:
+			return {...state, post}
+		case REMOVE_COMMENT:
+
+			let comments = state.comments.filter((comment) =>  comment.id !== action.id)
+			return {...state, comments: comments}
+		case ADD_COMMENT:
+			return {...state, comments: [...state.comments, action.comment]}
+		case RECIEVE_COMMENTS: 
+			//order comments by voteScore
+			const orderComments = action.comments.sort((a,b) => (
+				b.voteScore - a.voteScore
+			))
+			return {...state, comments: orderComments}
+		case PREPARE_ADD_POST:
+			return {...state, post: {...state.post, category:action.category}}
+		case CHANGE_TITLE_POST:
+			return {...state, post: {...state.post, title:action.title}}
+		case CHANGE_BODY_POST:
+			return {...state, post: {...state.post, body:action.body}}
+		case UPDATE_POST: 
+			return {...state, showSaved:true}
+		case VOTE_COMMENT:
+			state.comments[state.comments.findIndex(el => el.id === action.comment.id)] = action.comment;
+			const newOrderComments = state.comments.sort((a,b) => (
+				b.voteScore - a.voteScore
+			))
+			return {...state, comments: newOrderComments}
 		default:
 			return state
 	}
