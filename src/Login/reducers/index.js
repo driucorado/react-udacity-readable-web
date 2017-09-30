@@ -1,11 +1,14 @@
-import {REGISTER_USER} from '../actions'
+import {CHANGE_USER_NAME, LOGIN_USER} from '../actions'
 
-const initialState = {user : null}
+const initialState = {user : '', newUser: ''}
 
 export function user(state = initialState, action) {
-	//console.log(action)
+	console.log(action)
 	switch(action.type) {
-		case REGISTER_USER :  
+		case CHANGE_USER_NAME:
+			return {...state, newUser: action.user}
+		case LOGIN_USER:  
+			console.log('jojojojo')
 			return {...state, user: action.user}
 		default:
 			return state

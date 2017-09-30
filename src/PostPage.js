@@ -16,9 +16,9 @@ class PostPage extends Component {
 	}
 
 	render() {
-		const {post, comments} = this.props
+		const {post, user} = this.props
 		return (
-			<MainLayout mainClass="post_page_v01" title={'Post'}>
+			<MainLayout mainClass="post_page_v01" currentUser={user} title={'Post'}>
 				<div className="card post-header">
 				  <div className="card-header">
 				    {post.title} <Link to={`/post/${post.id}/edit`}>Edit</Link>
@@ -44,10 +44,11 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-const  mapStateToProps = ({main, post}) => {
+const  mapStateToProps = ({main, post, user}) => {
 	return {
 		post:post.post,
-		comments: post.comments
+		comments: post.comments,
+		user: user.user
 	}
 }
 

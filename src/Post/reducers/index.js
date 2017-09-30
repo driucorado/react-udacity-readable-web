@@ -1,5 +1,5 @@
 
-import {ADD_POST, UPDATE_POST, REMOVE_POST, RECIEVE_POST, RECIEVE_COMMENTS, PREPARE_ADD_POST, CHANGE_TITLE_POST, CHANGE_BODY_POST} from '../actions'
+import {UPDATE_POST, REMOVE_POST, RECIEVE_POST, RECIEVE_COMMENTS, PREPARE_ADD_POST, CHANGE_TITLE_POST, CHANGE_BODY_POST} from '../actions'
 import {ADD_COMMENT, REMOVE_COMMENT, VOTE_COMMENT} from '../../Comment/actions'
 
 const initialState = {showSaved: false, post: {}, comments: []}
@@ -29,6 +29,8 @@ export function post(state = initialState, action) {
 			return {...state, post: {...state.post, body:action.body}}
 		case UPDATE_POST: 
 			return {...state, showSaved:true}
+		case REMOVE_POST:
+			return {...state}
 		case VOTE_COMMENT:
 			state.comments[state.comments.findIndex(el => el.id === action.comment.id)] = action.comment;
 			const newOrderComments = state.comments.sort((a,b) => (

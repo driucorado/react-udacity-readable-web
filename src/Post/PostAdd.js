@@ -16,10 +16,13 @@ class PostAdd extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const {editPost, addPost, post} = this.props
+		const {editPost, addPost, post, user} = this.props
 		const {id} = post
 		if (id) editPost(post)
-		else addPost(post)
+		else {
+			const newPost = {...post, user:user}
+			addPost(newPost)
+		}
 	}
 
 	handleInputChange = (e, input) => {
@@ -32,6 +35,8 @@ class PostAdd extends Component {
 		 	case TITLE_INPUT:
 		 		changeTitle(value)
 		 		break
+		 	default:
+		 		//nothing
 		 }
 	}
 
@@ -67,8 +72,8 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const  mapStateToProps = ({post}) => {
-	return {category: "", post: post.post}
+const  mapStateToProps = ({post, user}) => {
+	return {category: "", post: post.post, user: user.user}
 }
 	
 

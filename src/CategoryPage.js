@@ -13,9 +13,9 @@ class CategoryPage extends Component {
 	}
 
 	render() {
-		const {posts, title } = this.props
+		const {posts, title,user } = this.props
 		return (
-			<MainLayout mainClass={`category_v01`} title={title? title: ""}>
+			<MainLayout currentUser={user} mainClass={`category_v01`} title={title? title: ""}>
 				<PostList posts={posts} />
 				<Link to={`/cat/${title}/posts`}>Add</Link>
 			</MainLayout>)
@@ -31,9 +31,10 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-const  mapStateToProps = ({category}) => {
+const  mapStateToProps = ({category, user}) => {
 	return {posts: category.posts,
-		title: category.title
+		title: category.title,
+		user: user.user
 	}
 }
 

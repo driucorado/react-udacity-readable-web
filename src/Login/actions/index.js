@@ -1,5 +1,10 @@
-export const REGISTER_USER = "REGISTER_USER"
+export const LOGIN_USER = "LOGIN_USER"
+export const CHANGE_USER_NAME = "CHANGE_USER_NAME"
 
-export function registerUser(userName) {
-	return {type:REGISTER_USER, user: {userName}}
+export function loginUser(userName) {
+	return {type: LOGIN_USER, user: userName}
+}
+
+export function changeUserName(userName) {
+	return {type:CHANGE_USER_NAME, user: userName}
 }

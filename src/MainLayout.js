@@ -11,12 +11,10 @@ class MainLayout extends Component {
 	}
 
 	render() {
-		const {title, children, mainClass, user} = this.props
+		const {title, children, mainClass, currentUser} = this.props
 		return (<div className={`${mainClass} main`}> 
-					<Header title={title}/>
-				<div>
-					{children}
-				</div>
+					<Header title={title} user={currentUser}/>
+					<div>{children}</div>
 				</div>)
 	}
 }

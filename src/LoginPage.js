@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Route, Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import MainLayout from './MainLayout'
 import {connect} from 'react-redux'
-import {registerUser} from './Login/actions'
+import {changeUserName, loginUser} from './Login/actions'
 import './style/css/Login/style/login.css';
 
 
@@ -10,13 +10,17 @@ class LoginPage extends Component {
   componentDidMount() {
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) =>  {
     e.preventDefault();
+    const {newUser, registerUser} = this.props
+    console.log('enter system')
+    console.log(newUser)
+    registerUser(newUser)
   }
 
   render() {
-  	const {registerUser, user} = this.props
-  	if (user != null) {
+  	const {user,changeUserName, newUser} = this.props
+  	if (user !== '') {
   		return (<Redirect to="/" />)
   	} else
   	return (
@@ -26,14 +30,14 @@ class LoginPage extends Component {
   				<div className="col-4">
   				</div>
   				<div className="col-4">
-	  		<form className="form-signin" onSubmit={this.handleSubmit}>
-	  		  {/*<div className="form-group">
-	  		  	 <label htmlFor="userName">UserName</label>
-	   			 <input className="form-control" name="userName" placeholder="Enter UserName" />
-	          </div>*/}
-	          <button type="submit" onClick={() => { registerUser("User")
-	      		}} className="btn btn-primary">Enter to Readable</button>
-	        </form>
+      	  		<form className="form-signin" onSubmit={(e) => this.handleSubmit(e)}>
+                  <div className="form-group">
+                    <input className="form-control" value={newUser} onChange={(e) => changeUserName(e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <button type="submit" className="btn btn-primary">Enter to Readable</button>
+                  </div>
+      	     </form>
 	        	</div>
 	        </div>
         </div>
@@ -43,12 +47,13 @@ class LoginPage extends Component {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		registerUser: (userName) => dispatch(registerUser(userName))
+		registerUser: (userName) => dispatch(loginUser(userName)),
+    changeUserName: (userName) => dispatch(changeUserName(userName))
 	}
 }
 
 const  mapStateToProps = ({user}) => {
-	return {user: user.user}
+	return {user: user.user, newUser: user.newUser}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

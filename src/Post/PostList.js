@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import PostItem from './PostItem'
-
-import {fetchPosts} from './actions'
 
 import {Link} from 'react-router-dom'
-
-import {connect} from 'react-redux'
 
 class PostList extends Component {
 
