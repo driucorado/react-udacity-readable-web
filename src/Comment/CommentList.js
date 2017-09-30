@@ -34,7 +34,6 @@ class CommmentList extends Component {
 
 	
 	render() {
-		console.log('render list')
 		const {comments, comment, changeBody, deleteComment, setCurrentComment} = this.props
 		return (<div className="post-comments">
 					<div className="card bg-light mb-3">
