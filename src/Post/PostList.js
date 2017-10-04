@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {ratingPost, deletePost} from '../Category/actions'
+import {orderPostsByVote, orderPostsByTime, ratingPost, deletePost} from './actions'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
@@ -8,7 +8,21 @@ const VoteOption = {
     DOWN: 'downVote'
 }
 
+const OrderOption = {
+    TimeStamp: 'TimeStamp',
+    Score: 'Score'
+}
+
 class PostList extends Component {
+	componentDidMount() {
+		console.log(this.props)
+	}
+	orderBy = (option) => {
+		const {orderPostsByVote, orderPostsByTime} = this.props
+		if (option === OrderOption.Score)  orderPostsByVote()
+		if (option === OrderOption.TimeStamp) orderPostsByTime()
+		//Order By event
+	}
 
 	votePost = (option, post) => {
 		const {ratingPost} = this.props
@@ -22,7 +36,16 @@ class PostList extends Component {
 
 	render() {
 		const {posts, deletePost} = this.props
+		console.log(this.props)
 		return(<div className="post-list">
+					<div>
+						<div className="form-group" >
+							<div className="btn-group" role="group" aria-label="Basic example">
+								<input type="button" onClick={(e) => this.orderBy(OrderOption.TimeStamp)} title="Order By Date" className="btn btn-success" value="Order By Date"/>
+								<input type="button" onClick={(e) => this.orderBy(OrderOption.Score)} title="Order By Date" className="btn btn-success" value="Order By Score"/>
+							</div>
+						</div>
+					</div>
 					<div className="table-responsive">
 						<table className="table table-striped">
 							<thead>
@@ -61,12 +84,10 @@ class PostList extends Component {
 function mapDispatchToProps(dispatch) {
 	return {
 		ratingPost: (postId, option) => dispatch(ratingPost(postId, option)),
-		deletePost: (postId) => dispatch(deletePost(postId))
+		deletePost: (postId) => dispatch(deletePost(postId)),
+        orderPostsByVote: () => dispatch(orderPostsByVote()),
+        orderPostsByTime: () => dispatch(orderPostsByTime())
 	}
 }
 
-const  mapStateToProps = ({user, category}) => {
-	return {user: user.user, posts: category.posts}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList) 
+export default connect(null, mapDispatchToProps)(PostList)

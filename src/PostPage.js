@@ -23,7 +23,7 @@ class PostPage extends Component {
 			}>
 				<div className="card post-header">
 				  <div className="card-header">
-					 <Link to={`/post/${post.id}/edit`}>Edit Post</Link>
+					  score:{post.voteScore}<Link to={`/post/${post.id}/edit`}> Edit Post</Link>
 				  </div>
 				  <div className="card-body">
 				    <blockquote className="blockquote mb-0">

@@ -74,7 +74,7 @@ export const getByCategory = (category) =>
 export const getAll = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
-    .then(data => data.books)
+    .then(data => data)
 
 export const add = (post) => {
   const newPost = Object.assign({

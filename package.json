@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
+    "history": "^4.7.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.6",
     "react-scripts": "1.0.11",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
@@ -24,6 +26,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-less": "^3.3.2"
+    "gulp-less": "^3.3.2",
+    "jest": "^21.0.2",
+    "jest-cli": "^21.0.2"
   }
 }

@@ -1,4 +1,5 @@
-import {RECIEVE_POSTS, VOTE_POST, REMOVE_POST} from '../actions'
+import {VOTE_POST, REMOVE_POST, ORDER_POSTS_BY_TIME, ORDER_POSTS_BY_VOTE} from '../../Post/actions'
+import {RECIEVE_POSTS} from '../../Post/actions'
 
 const initialState = {posts : []}
 
@@ -8,13 +9,17 @@ export function category(state =  initialState, action) {
 			return {...state, posts: action.posts, title: action.category}
 		case VOTE_POST:
 			state.posts[state.posts.findIndex(el => el.id === action.post.id)] = action.post;
-			const newOrderPosts = state.posts.sort((a,b) => (
-				b.voteScore - a.voteScore
-			))
-			return {...state, posts: newOrderPosts}
+			return {...state}
 		case REMOVE_POST:
 			let posts = state.posts.filter((post) =>  post.id !== action.postId)
 			return {...state, posts: posts}
+		case ORDER_POSTS_BY_VOTE:
+            const newOrderPostsByTime = state.posts.sort((a,b) => {
+            	if (a.voteScore > b.voteScore) return 1;
+                if (a.voteScore <= b.voteScore) return -1;
+                return 0
+            })
+			return {...state, posts: newOrderPostsByTime}
 		default:
 			return state
 	}	

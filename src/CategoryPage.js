@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import MainLayout from './MainLayout'
-import {fetchPosts,} from './Category/actions'
+import {fetchPosts,} from './Post/actions'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import PostList from './Post/PostList'
@@ -18,7 +18,7 @@ class CategoryPage extends Component {
             <MainLayout currentUser={user} mainClass={`category_v01`} title={
                 <span><Link to={`/`}>Readable</Link>/{title}</span>
             }>
-                <PostList/>
+                <PostList posts={posts} />
                 <Link to={`/cat/${title}/posts`}>Add</Link>
             </MainLayout>)
     }
