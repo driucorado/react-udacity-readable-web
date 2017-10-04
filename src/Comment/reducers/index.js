@@ -17,8 +17,6 @@ export function comment(state = initialState, action) {
 			} else {
 				return state
 			}
-		// case ADD_COMMENT :  
-		// 	return {...state, comment}
 		default :
 			return state
 	}

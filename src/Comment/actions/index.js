@@ -4,7 +4,6 @@ export const ADD_COMMENT = 'ADD_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 export const CHANGE_BODY_COMMENT = "CHANGE_BODY_COMMENT"
-export const PREPARE_ADD_COMMENT = "PREPARE_ADD_COMMENT"
 export const SET_CURRENT_COMMENT = "SET_CURRENT_COMMENT"
 export const EMPTY_ADD_COMMENT = "EMPTY_ADD_COMMENT"
 export const VOTE_COMMENT = "VOTE_COMMENT"
@@ -36,10 +35,6 @@ export function updateComment(comment) {
 
 export function removeComment({id}) {
 	return {type:REMOVE_COMMENT, id}
-}
-
-export function prepareAddComment(postId) {
-	return {type:PREPARE_ADD_COMMENT, postId:postId}
 }
 
 export const saveComment = (comment) => dispatch => {

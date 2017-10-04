@@ -25,16 +25,14 @@ export const getById = (id) =>
     .then(data => data)
 
 export const deletePost = (id) => {
-  const postUpdate = {}
   return fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(postUpdate)
-  }).then(res => res.json())
-    .then(data => data)
+    body: JSON.stringify({})
+  })
 }
 
 export const  updatePostDetails = ({id, title, body}) => {

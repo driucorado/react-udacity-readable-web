@@ -12,10 +12,21 @@ export const RECIEVE_COMMENTS = 'RECIEVE_COMMENTS'
 export const UPDATE_POST = 'UPDATE_POST'
 export const REMOVE_POST = 'REMOVE_POST'
 export const GET_POST = 'GET_POST'
+export const VOTE_COMMENT = 'VOTE_COMMENT'
 export const RECIEVE_POST = 'RECIEVE_POST'
+export const BACK_TO_CATEGORY = 'BACK_TO_CATEGORY'
 
 
 export const PREPARE_ADD_POST = 'PREPARE_ADD_POST'
+
+export function voteComment(option, comment) {
+	return {type: PREPARE_ADD_POST, option: option, comment}
+}
+
+export function backToCategory(category) {
+	return {type: BACK_TO_CATEGORY, category: category}
+
+}
 
 export function changeBody(body) {
 	return {type:CHANGE_BODY_POST,  body:body}

@@ -44,7 +44,7 @@ class CommmentList extends Component {
 					  	<form onSubmit={(e) => this.handleSubmit(e)}>
 						  <div className="form-group">
 						  	<label htmlFor="commentBody">Comment</label>
-						  	<textarea id="commentBody" onChange={(e) => changeBody(e.target.value)} value={comment.body} className="form-control"></textarea>
+						  	<textarea id="commentBody" onChange={(e) => changeBody(e.target.value)} value={comment.body} className="form-control"/>
 						  </div>
 						  <button type="submit" className="btn btn-sm btn-primary">
 						  	{(comment.id) ? 'Edit Comment' : 'Add Comment'} 
@@ -58,7 +58,7 @@ class CommmentList extends Component {
 							<button type="button" onClick={(e) => deleteComment(comment.id)} className="close" aria-label="Close">
 				          		<span aria-hidden="true">&times;</span>
 				        	</button>
-							<p>{comment.body}</p>
+							<p><span className={`badge badge-pill ${(comment.voteScore > 0) ? 'badge-success' : 'badge-warning'} `}>score: {comment.voteScore}</span>{comment.body}</p>
 							<div className="btn-group" role="group" aria-label={comment.id}>
 								<button onClick={(e) => setCurrentComment(comment)} className="btn">Edit</button>
 								<button onClick={(e) => this.voteComment(VoteOption.UP, comment)} className="btn btn-success">Up</button>

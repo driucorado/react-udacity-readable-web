@@ -5,7 +5,6 @@ import CategoryPage from './CategoryPage'
 import PostPage from './PostPage'
 import PostAdd from './Post/PostAdd'
 import LoginPage from './LoginPage'
-import CommentAdd from './Comment/CommentAdd'
 
 /*
  * App Class (root router)
@@ -34,10 +33,6 @@ class App extends Component {
             <Route path="/post/:id/edit" exact render={({match}) => (
                 <PostAdd match={match} />
             )} />
-            <Route path="/post/:id/comments" exact render={({match, history}) => (
-                <CommentAdd match={match} />
-            )} />
-
       </div>
     );
   }
