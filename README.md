@@ -3,4 +3,9 @@
 # author Gerardo Andres Corado Juárez
 
 # How to install
-run npm install
+# remember to initiate the api in http://localhost:5001
+
+npm install
+yarn start
+
+thanks.
