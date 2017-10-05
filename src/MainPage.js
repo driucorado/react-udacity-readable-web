@@ -15,6 +15,11 @@ import {connect} from 'react-redux'
  should have a control for adding a new post
  */
 class MainPage extends Component {
+	propTypes = {
+		user: PropTypes.string,
+		posts: PropTypes.array
+	}
+
 	componentDidMount() {
 		const {getAllPosts} = this.props
 		getAllPosts()

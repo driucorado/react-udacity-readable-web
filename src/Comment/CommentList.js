@@ -35,6 +35,7 @@ class CommmentList extends Component {
 	
 	render() {
 		const {comments, comment, changeBody, deleteComment, setCurrentComment} = this.props
+		console.log('render')
 		return (<div className="post-comments">
 					<div className="card bg-light mb-3">
 					  <div className="card-header">
@@ -58,7 +59,8 @@ class CommmentList extends Component {
 							<button type="button" onClick={(e) => deleteComment(comment.id)} className="close" aria-label="Close">
 				          		<span aria-hidden="true">&times;</span>
 				        	</button>
-							<p><span className={`badge badge-pill ${(comment.voteScore > 0) ? 'badge-success' : 'badge-warning'} `}>score: {comment.voteScore}</span>{comment.body}</p>
+							<p><span className={`badge badge-pill ${(comment.voteScore > 0) ? 'badge-success' : 'badge-warning'} `}>{comment.voteScore}</span>{new Date(comment.timestamp).toLocaleString('en-US')}</p>
+							<p>{comment.body}</p>
 							<div className="btn-group" role="group" aria-label={comment.id}>
 								<button onClick={(e) => setCurrentComment(comment)} className="btn">Edit</button>
 								<button onClick={(e) => this.voteComment(VoteOption.UP, comment)} className="btn btn-success">Up</button>

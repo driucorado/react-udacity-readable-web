@@ -36,7 +36,6 @@ class PostList extends Component {
 
 	render() {
 		const {posts, deletePost} = this.props
-		console.log(this.props)
 		return(<div className="post-list">
 					<div>
 						<div className="form-group" >
@@ -52,6 +51,7 @@ class PostList extends Component {
 				                <tr>
 				                  <th>Score</th>
 				                  <th>Title</th>
+								  <th>Date</th>
 				                  <th>Body</th>
 				                  <th>Options</th>
 				                </tr>
@@ -61,6 +61,7 @@ class PostList extends Component {
 								<tr key={post.id}>
 								  <td>{post.voteScore}</td>
 				                  <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
+								  <td>{new Date(post.timestamp).toLocaleString('en-US')}</td>
 				                  <td>{post.body}</td>
 				                  <td>
 

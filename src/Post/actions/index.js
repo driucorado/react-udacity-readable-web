@@ -86,16 +86,19 @@ export const votePost = (post, option) => {
 
 //API methods
 export const getPost = (id) => dispatch => (
-    PostAPI.getById(id)
-        .then((data) => dispatch(recievePost(data))))
+    PostAPI
+    .getById(id)
+    .then((data) => dispatch(recievePost(data))))
 
 export const getCommentsByPost = (id) => dispatch => (
-    CommentAPI.getCommentsByPost(id)
-        .then((data) => dispatch(recieveComments(data)))
+    CommentAPI
+    .getCommentsByPost(id)
+    .then((data) => dispatch(recieveComments(data)))
 )
 
 export const editPost = (post) => dispatch => (
-	PostAPI.updatePostDetails(post)
+	PostAPI
+	.updatePostDetails(post)
 	.then(data => dispatch(updatePost(data)))
 )
 
@@ -111,24 +114,26 @@ export const createPost = ({title, body, author, category}) => dispatch => (
 
 
 export const getAllPosts = () => dispatch => (
-	PostAPI.getAll().then((posts) => dispatch(recievePosts({category:undefined,posts:posts})))
+	PostAPI
+	.getAll()
+	.then((posts) => dispatch(recievePosts({category:undefined,posts:posts})))
 )
 
 export const fetchPosts = (category) => dispatch => (
     PostAPI
-        .getByCategory(category)
-        .then(posts => dispatch(recievePosts({category,posts})))
+    .getByCategory(category)
+    .then(posts => dispatch(recievePosts({category,posts})))
 )
 
 export const ratingPost = (post, option) => dispatch => (
     PostAPI
-        .ratingPost(post.id, option)
-        .then(data => dispatch(votePost(post, option)))
+    .ratingPost(post.id, option)
+    .then(data => dispatch(votePost(post, option)))
 )
 
 
 export const deletePost = (postId) => dispatch => (
-    PostAPI.
-    deletePost(postId)
-        .then(data => dispatch(removePost(postId)))
+    PostAPI
+    .deletePost(postId)
+    .then(data => dispatch(removePost(postId)))
 )

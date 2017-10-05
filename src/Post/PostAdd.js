@@ -4,9 +4,6 @@ import {prepareAddPost, createPost, editPost, getPost, changeBody, changeTitle, 
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 
-const TITLE_INPUT = "TITLE_INPUT"
-const BODY_INPUT = "BODY_INPUT"
-
 class PostAdd extends Component {
 	componentDidMount() {
 		const {id,cat} = this.props.match.params
