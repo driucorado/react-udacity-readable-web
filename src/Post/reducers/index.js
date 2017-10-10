@@ -4,6 +4,12 @@ import {ADD_COMMENT, REMOVE_COMMENT, VOTE_COMMENT} from '../../Comment/actions'
 
 const initialState = {showSaved: false, redirectToCategory:false, post: {}, comments: []}
 
+/**
+ * Post Reducer , contains all the information for one post
+ * @param state
+ * @param action
+ * @returns {*}
+ */
 export function post(state = initialState, action) {
 	const {post} = action
 	switch(action.type) {

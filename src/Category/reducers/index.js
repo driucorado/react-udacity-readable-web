@@ -3,6 +3,12 @@ import {RECIEVE_POSTS} from '../../Post/actions'
 
 const initialState = {posts : [], orderBy:'vote'}
 
+/**
+ * Category Reducer contains all the information for category data
+ * @param state
+ * @param action
+ * @returns {*}
+ */
 export function category(state =  initialState, action) {
 	switch(action.type) {
 		case RECIEVE_POSTS:
@@ -11,11 +17,6 @@ export function category(state =  initialState, action) {
             const newPosts = state.posts.slice()
             const index = newPosts.findIndex((element) => element.id === action.post.id);
             newPosts[index].voteScore = action.post.voteScore
-            // const newOrderPostsByScore = newPosts.sort((a,b) => {
-            //     if (a.voteScore < b.voteScore) return 1;
-            //     if (a.voteScore >= b.voteScore) return -1;
-            //     return 0
-            // })
 			return {...state, posts:newPosts}
 		case REMOVE_POST:
 			let posts = state.posts.filter((post) =>  post.id !== action.postId)

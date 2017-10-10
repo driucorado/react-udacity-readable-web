@@ -1,10 +1,9 @@
 import uuid from 'uuid/v4';
+import config from '../default.json' 
 
 //endpoint readable api
-const api = "http://localhost:5001"
-
-// Generate a unique token for storing your bookshelf data on the backend server.
-let token = 'gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU='
+const api = config.api.endpoint
+let token = config.api.token
 if (!token)
   token = localStorage.token = Math.random().toString(36).substr(-8)
 

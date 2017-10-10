@@ -1,5 +1,6 @@
 {
 	"api" : {
-		"endpoint" : "localhost:5001"
+		"endpoint" : "http://localhost:5001",
+		"token" : "gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU="
 	}
 }

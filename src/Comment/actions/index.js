@@ -1,4 +1,4 @@
-import * as CommentAPI from '../../api/CommentAPI'
+import * as CommentApi from '../../api/CommentApi'
 
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
@@ -38,25 +38,25 @@ export function removeComment({id}) {
 }
 
 export const saveComment = (comment) => dispatch => {
-	return CommentAPI
+	return CommentApi
 	.add(comment)
 	.then(data => dispatch(addComment(data)))
 }
 
 export const deleteComment = (id) => dispatch => (
-	CommentAPI
+	CommentApi
 	.deleteComment(id)
 	.then(data => dispatch(removeComment(data)))
 )
 
 export const ratingComment = (option, comment) => dispatch => (
-	CommentAPI
+	CommentApi
 	.ratingComment(comment.id, option)
 	.then(data => dispatch(voteComment(option,data)))
 )
 
 export const editComment = (comment) => dispatch => (
-	CommentAPI
+	CommentApi
 	.update(comment)
 	.then(data => dispatch(updateComment(data)))
 )

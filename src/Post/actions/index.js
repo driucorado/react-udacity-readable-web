@@ -1,5 +1,5 @@
-import * as PostAPI from '../../api/PostAPI'
-import * as CommentAPI from '../../api/CommentAPI'
+import * as PostAPI from '../../api/PostApi'
+import * as CommentAPI from '../../api/CommentApi'
 
 //changes
 export const CHANGE_BODY_POST = "CHANGE_BODY_POST"

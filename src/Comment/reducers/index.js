@@ -2,7 +2,12 @@ import {REMOVE_COMMENT, SET_CURRENT_COMMENT, CHANGE_BODY_COMMENT, EMPTY_ADD_COMM
 
 const initialState = {comment: {body: ''}}
 
-
+/**
+ * Comment reducer contains all the information for one comment, only one
+ * @param state
+ * @param action
+ * @returns {*}
+ */
 export function comment(state = initialState, action) {
 	switch(action.type) {
 		case CHANGE_BODY_COMMENT:
