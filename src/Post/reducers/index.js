@@ -1,6 +1,6 @@
 
 import {REMOVE_POST, ADD_POST, RECEIVE_POSTS, PREPARE_ADD_POST, RECIEVE_POST, CHANGE_POST_DATA, VOTE_POST, ORDER_POSTS_BY_VOTE, ORDER_POSTS_BY_TIME, OPEN_POST_EDITION, EMPTY_CURRENT_POST} from '../actions'
-import {RECEIVE_COMMENTS} from "../../Comment/actions/index";
+import {RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/actions/index";
 
 
 const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: '', title: ''}, openPostEdition: false}
@@ -14,6 +14,9 @@ const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: ''
 export function post(state = initialState, action) {
 	const {post} = action
 	switch(action.type) {
+	    //Comment
+        case REMOVE_COMMENT:
+            return {...state}
         case EMPTY_CURRENT_POST:
             return {...state, currentPost: null}
         case ADD_POST:

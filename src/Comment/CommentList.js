@@ -47,6 +47,7 @@ class CommmentList extends Component {
                         <p>{new Date(comments[comment].timestamp).toLocaleString('en-US')}</p>
 
                         <p>{comments[comment].body}</p>
+                        <footer className="blockquote-footer">{comment ? comments[comment].author : ''}</footer>
 
                         <div className="btn-group" role="group" aria-label={comments[comment].id}>
                             <button onClick={(e) => setCurrentComment(comment)} className="btn btn-sm">Edit
