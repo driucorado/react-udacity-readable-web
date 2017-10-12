@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import MainLayout from './MainLayout'
-import {fetchPosts, emptyCurrentPost, orderPostsByVote} from './Post/actions'
+import {fetchPosts, emptyCurrentPost} from './Post/actions'
 import {backToCategory} from "./Post/actions/index";
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'

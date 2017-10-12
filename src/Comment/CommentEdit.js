@@ -1,7 +1,6 @@
 import React from 'react'
 import {registerChangeData, editComment, saveComment} from './actions'
 import {connect} from 'react-redux'
-import {comment} from "./reducers/index";
 
 class CommentEdit extends React.Component {
 
@@ -23,7 +22,7 @@ class CommentEdit extends React.Component {
     }
 
     render() {
-        const {comment, onChange} = this.props
+        const {comment} = this.props
         return (
             <div className="card-body">
                 <form onSubmit={(e) => this.handleSubmit(e)}>

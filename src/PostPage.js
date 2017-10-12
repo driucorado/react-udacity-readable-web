@@ -16,7 +16,7 @@ const VoteOption = {
 class PostPage extends Component {
 	state =  {title: '', posts: []}
 	componentDidMount() {
-		const {id, cat} = this.props.match.params
+		const {id} = this.props.match.params
 		const {getPost, getComments, fetchCategories} = this.props
         fetchCategories()
 		getPost(id)
@@ -33,7 +33,7 @@ class PostPage extends Component {
     }
 
 	render() {
-        const {id, cat} = this.props.match.params
+        const {cat} = this.props.match.params
 		const {post, user, togglePostEdition, openPostEdition} = this.props
         const divStyle = {
             border: 'solid'

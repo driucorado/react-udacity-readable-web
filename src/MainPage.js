@@ -16,7 +16,7 @@ class MainPage extends Component {
 		getAllPosts()
 	}
 	render() {
-		const {user, posts, postList, openPostEdition} = this.props
+		const {user, posts, postList} = this.props
 		return (
 			<MainLayout title="Readable" currentUser={user} mainClass={`main_v01`} showTitle={true}>
 			<div className="container-fluid">

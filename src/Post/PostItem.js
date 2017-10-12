@@ -23,7 +23,7 @@ class PostItem extends Component {
     }
 
     render() {
-        const {post, votePost, deletePost, voteOptions, currentPost} = this.props
+        const {post, votePost, voteOptions, currentPost} = this.props
         return (<tr className={post.deleted ? `table-danger` : (post.id === currentPost) ? `is_editing` : ``}>
             <td>{post.voteScore}</td>
             <td><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></td>

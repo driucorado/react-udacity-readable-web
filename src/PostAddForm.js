@@ -7,13 +7,13 @@ import {fetchCategories} from './Category/actions'
 
 class PostAddForm extends Component {
     componentDidMount() {
-        const {cat, id} = this.props.match.params
-        const {getPost, togglePostEdition, fetchCategories} = this.props
+        const {id} = this.props.match.params
+        const {getPost, fetchCategories} = this.props
         fetchCategories().then(getPost(id))
     }
 
     handleSubmit = (e) => {
-        const {createPost, editPost, togglePostEdition, post, isPostPage, backToCategory} = this.props
+        const {createPost, editPost, post, backToCategory} = this.props
         e.preventDefault();
 
         if (post.id) {

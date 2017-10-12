@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchCategories} from './actions'
 import CategoryItem from './CategoryItem'
-import {category} from "./reducers/index";
 
 class CategoryList extends Component {
 

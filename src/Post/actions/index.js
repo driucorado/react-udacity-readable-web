@@ -1,5 +1,4 @@
 import * as PostAPI from '../../api/PostApi'
-import {fetchCategories} from "../../Category/actions/index";
 
 //changes
 export const CHANGE_BODY_POST = "CHANGE_BODY_POST"

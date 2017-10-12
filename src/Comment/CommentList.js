@@ -29,7 +29,7 @@ class CommmentList extends Component {
 
 
     render() {
-        const {comments, currentComment, editComment, saveComment, deleteComment, setCurrentComment, commentList, openCommentEdition} = this.props
+        const {comments, deleteComment, setCurrentComment, commentList, openCommentEdition} = this.props
         return (<div className="post-comments">
             { openCommentEdition && (<CommentEdit/>)}
             <ol className="list-group list-group-flush">

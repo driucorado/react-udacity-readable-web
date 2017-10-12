@@ -1,4 +1,4 @@
-import {REMOVE_COMMENT, SET_CURRENT_COMMENT, EMPTY_ADD_COMMENT, CHANGE_COMMENT_DATA, ADD_COMMENT, RECEIVE_COMMENTS, VOTE_COMMENT, UPDATE_COMMENT} from '../actions'
+import {REMOVE_COMMENT, SET_CURRENT_COMMENT, CHANGE_COMMENT_DATA, ADD_COMMENT, RECEIVE_COMMENTS, VOTE_COMMENT, UPDATE_COMMENT} from '../actions'
 
 const initialState = {comments: {}, list: [], newComment: {body: ''}, currentComment: null,  openCommentEdition: false}
 
@@ -16,7 +16,6 @@ export function comment(state = initialState, action) {
             } else {
                 return {...state, newComment: {...state.newComment, ...action.data}}
             }
-            return state
         case SET_CURRENT_COMMENT:
 			return {...state, currentComment: action.commentId, openCommentEdition:true}
         case REMOVE_COMMENT:

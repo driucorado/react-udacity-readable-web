@@ -40,7 +40,6 @@ export function post(state = initialState, action) {
             } else {
                 return {...state, newPost: {...state.newPost, ...action.data}}
             }
-            return state
         case RECIEVE_POST:
 			return {...state, backToCategory:null, currentPost: post.id, posts: {...state.posts, [action.post.id] : action.post}}
         case PREPARE_ADD_POST:
