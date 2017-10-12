@@ -1,8 +1,9 @@
 
-import {UPDATE_POST, REMOVE_POST, RECIEVE_POST, RECIEVE_COMMENTS, PREPARE_ADD_POST, CHANGE_TITLE_POST, CHANGE_BODY_POST, BACK_TO_CATEGORY} from '../actions'
-import {ADD_COMMENT, REMOVE_COMMENT, VOTE_COMMENT} from '../../Comment/actions'
+import {REMOVE_POST, ADD_POST, RECEIVE_POSTS, PREPARE_ADD_POST, RECIEVE_POST, CHANGE_POST_DATA, VOTE_POST, ORDER_POSTS_BY_VOTE, ORDER_POSTS_BY_TIME, OPEN_POST_EDITION, EMPTY_CURRENT_POST} from '../actions'
+import {RECEIVE_COMMENTS} from "../../Comment/actions/index";
 
-const initialState = {showSaved: false, redirectToCategory:false, post: {}, comments: []}
+
+const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: '', title: ''}, openPostEdition: false}
 
 /**
  * Post Reducer , contains all the information for one post
@@ -13,56 +14,68 @@ const initialState = {showSaved: false, redirectToCategory:false, post: {}, comm
 export function post(state = initialState, action) {
 	const {post} = action
 	switch(action.type) {
-		//RECIEVE POST
-		case RECIEVE_POST:
-			return {...state, post, showSaved: false, redirectToCategory:false}
-		case PREPARE_ADD_POST:
-			return {...state, redirectToCategory:false, post: {body: '', title: '', category:action.category}}
-		case CHANGE_TITLE_POST:
-			return {...state, post: {...state.post, title:action.title}}
-		case CHANGE_BODY_POST:
-			return {...state, post: {...state.post, body:action.body}}
-		case UPDATE_POST: 
-			return {...state, showSaved:true}
-		case REMOVE_POST:
-			return {...state}
-
-		//COMMENTS
-		case REMOVE_COMMENT:
-			let comments = state.comments.filter((comment) =>  comment.id !== action.id)
-			return {...state, comments: comments}
-		case ADD_COMMENT:
-			return {...state, comments: [...state.comments, action.comment]}
-		case RECIEVE_COMMENTS: 
-			//order comments by voteScore
-			const orderComments = action.comments.sort((a,b) => {
-				if (a.voteScore > b.voteScore) {
-					return -1
-				} else if (a.voteScore <= b.voteScore) {
-					return 1
-				}
-				return 0
-			})
-			return {...state, comments: orderComments}
-		
-		case BACK_TO_CATEGORY:
-			//back to category page
-			return {...state, redirectToCategory:true}
-		case VOTE_COMMENT:
-			//Is there a better way????
-			const newComments = state.comments.slice()
-            const index = newComments.findIndex((element) => element.id === action.comment.id);
-            newComments[index].voteScore = action.comment.voteScore
-            const newOrderComments = newComments.sort((a,b) => {
-                if (a.voteScore > b.voteScore) {
-                    return -1
-                } else if (a.voteScore <= b.voteScore) {
-                    return 1
+        case EMPTY_CURRENT_POST:
+            return {...state, currentPost: null}
+        case ADD_POST:
+            return {...state, posts: {...state.posts, [action.post.id] : action.post}, list:[...state.list,action.post.id]}
+		//post
+        case OPEN_POST_EDITION:
+            if (action.postId) {
+                return {
+                    ...state, openPostEdition: !state.openPostEdition,
+                    currentPost: action.postId,
+                    posts: {...state.posts, [action.postId]: {...state.posts[action.postId]}}
                 }
+            } else {
+                return {...state, currentPost: null, openPostEdition: !state.openPostEdition, newPost: {body: '', title: ''}}
+            }
+        case CHANGE_POST_DATA:
+            if (action.postId) {
+                return {...state, posts: {...state.posts, [action.postId]: {...state.posts[action.postId], ...action.data}}}
+            } else {
+                return {...state, newPost: {...state.newPost, ...action.data}}
+            }
+            return state
+        case RECIEVE_POST:
+			return {...state, currentPost: post.id, posts: {...state.posts, [action.post.id] : action.post}}
+        case PREPARE_ADD_POST:
+            return {...state, currentPost: action.post.id, posts: {...state.posts, [action.post.id]: action.post}}
+        case RECEIVE_COMMENTS: //one post
+            return {...state, posts: {...state.posts, [action.postId]: {...state.posts[action.postId], commentCount: action.comments.length}}}
+
+		//POSTS
+        case RECEIVE_POSTS:
+            const newPostsReceived = action.posts.reduce((carry, item) => {
+                carry[item.id] = item
+                return carry
+            }, {});
+            const postOrdered = action.posts.map((item) => (
+                item.id
+            ));
+            return {...state, posts: newPostsReceived, list: postOrdered, title: action.category}
+        // VOTE_POST change the vote
+        case VOTE_POST:
+            return {...state, posts: {...state.posts, [action.post.id] : {...state.posts[action.post.id], voteScore: action.post.voteScore}}}
+        // REMOVE_POST remove the post from the list
+        case REMOVE_POST:
+        	const newPostList = state.list.filter((post) => post !== action.postId)
+            return {...state, list: newPostList}
+        case ORDER_POSTS_BY_VOTE:
+            const newPostsVote = state.list.slice()
+			const newOrderPostsByVote = newPostsVote.map((post) => (state.posts[post])).sort((a,b) => {
+                if (a.voteScore < b.voteScore) return 1;
+                if (a.voteScore >= b.voteScore) return -1;
                 return 0
-            })
-            console.log(index)
-			return {...state, comments: newOrderComments}
+            }).map((post) => (post.id))
+            return {...state, list: newOrderPostsByVote}
+        case ORDER_POSTS_BY_TIME:
+            const newPostsTime = state.list.slice()
+            const newOrderPostsByTime = newPostsTime.map((post) => (state.posts[post])).sort((a,b) => {
+                if (a.timestamp > b.timestamp) return 1;
+                if (a.timestamp <= b.timestamp) return -1;
+                return 0
+            }).map((post) => (post.id))
+            return {...state, list: newOrderPostsByTime}
 		default:
 			return state
 	}

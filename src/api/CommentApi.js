@@ -64,7 +64,7 @@ export const update = (comment) => {
     body:null
   }, comment)
   return fetch(`${api}/comments/${comment.id}`, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       ...headers,
       'Content-Type': 'application/json'

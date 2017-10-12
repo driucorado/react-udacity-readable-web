@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {createStore, applyMiddleware, compose } from 'redux'
-import { createLogger } from 'redux-logger'
+// import { createLogger } from 'redux-logger'
 import reducers  from './reducers'
 import { Provider } from 'react-redux';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux'
@@ -17,10 +17,10 @@ const middleware = routerMiddleware(history)
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const loggerMiddleware = createLogger()
+// const loggerMiddleware = createLogger()
 
 const store = createStore(reducers,
-	composeEnhancers(applyMiddleware(thunk, loggerMiddleware, middleware))
+	composeEnhancers(applyMiddleware(thunk, middleware))
 )
 
 // TODO apply redux

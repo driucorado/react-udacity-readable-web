@@ -21,17 +21,14 @@ class App extends Component {
             <Route  exact path="/" render={({history}) => (
                 <MainPage/>
             )} />
-            <Route path="/cat/:cat" exact render={({match, history}) => (
+            <Route path="/:cat" exact render={({match, history}) => (
                 <CategoryPage match={match} />
             )} />
             <Route path="/cat/:cat/posts" exact render={({match, history}) => (
                 <PostAdd match={match} />
             )} />
-            <Route path="/post/:id" exact render={({match}) => (
+            <Route path="/:cat/:id" exact render={({match}) => (
                 <PostPage match={match} />
-            )} />
-            <Route path="/post/:id/edit" exact render={({match}) => (
-                <PostAdd match={match} />
             )} />
       </div>
     );

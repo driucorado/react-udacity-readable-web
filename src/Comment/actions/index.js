@@ -3,26 +3,32 @@ import * as CommentApi from '../../api/CommentApi'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
-export const CHANGE_BODY_COMMENT = "CHANGE_BODY_COMMENT"
 export const SET_CURRENT_COMMENT = "SET_CURRENT_COMMENT"
 export const EMPTY_ADD_COMMENT = "EMPTY_ADD_COMMENT"
 export const VOTE_COMMENT = "VOTE_COMMENT"
+export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
+export const CHANGE_COMMENT_DATA = 'CHANGE_COMMENT_DATA'
+export const OPEN_COMMENT_EDITION = 'OPEN_COMMENT_EDITION'
+
+
+export function registerChangeData(commentId, data) {
+	return {type: CHANGE_COMMENT_DATA, commentId:commentId, data:data}
+}
 
 export function emptyAddComment() {
 	return {type: EMPTY_ADD_COMMENT}
-	// body...
+}
+
+export function receiveComments(data, id) {
+    return {type:RECEIVE_COMMENTS, comments:data, postId:id}
 }
 
 export function voteComment(option, comment) {
 	return {type: VOTE_COMMENT, option: option, comment}
 }
 
-export function setCurrentComment(comment) {
-	return {type: SET_CURRENT_COMMENT, comment}
-}
-
-export function changeBody(body) {
-	return {type:CHANGE_BODY_COMMENT, body:body}
+export function setCurrentComment(commentId) {
+	return {type: SET_CURRENT_COMMENT, commentId:commentId}
 }
 
 export function addComment(comment) {
@@ -59,4 +65,12 @@ export const editComment = (comment) => dispatch => (
 	CommentApi
 	.update(comment)
 	.then(data => dispatch(updateComment(data)))
+)
+
+
+//Posts
+export const getCommentsByPost = (id) => dispatch => (
+    CommentApi
+        .getCommentsByPost(id)
+        .then((data) => dispatch(receiveComments(data, id)))
 )

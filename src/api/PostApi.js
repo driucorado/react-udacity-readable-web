@@ -12,25 +12,19 @@ const headers = {
   'Authorization': token
 }
 
-export const getCommentsByPost = (id) => 
-  fetch(`${api}/posts/${id}/comments`, { headers })
-    .then(res => res.json())
-    .then(data => data)
-
-
-export const getById = (id) =>
-  fetch(`${api}/posts/${id}`, { headers })
-    .then(res => res.json())
-    .then(data => data)
+export const getById = (id) => {
+    return fetch(`${api}/posts/${id}`, {headers})
+        .then(res => res.json())
+        .then(data => data)
+}
 
 export const deletePost = (id) => {
   return fetch(`${api}/posts/${id}`, {
-    method: 'DELETE',
+    method: 'delete',
     headers: {
       ...headers,
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({})
+    }
   })
 }
 

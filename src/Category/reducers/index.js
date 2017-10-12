@@ -1,7 +1,7 @@
-import {VOTE_POST, REMOVE_POST, ORDER_POSTS_BY_TIME, ORDER_POSTS_BY_VOTE} from '../../Post/actions'
-import {RECIEVE_POSTS} from '../../Post/actions'
+import {RECEIVE_POSTS, RECIEVE_POST, PREPARE_ADD_POST} from '../../Post/actions'
+import {RECIEVE_CATEGORIES} from '../../Category/actions'
 
-const initialState = {posts : [], orderBy:'vote'}
+const initialState = {selectedCategory: null, categories: {}, categoryList: []}
 
 /**
  * Category Reducer contains all the information for category data
@@ -11,32 +11,19 @@ const initialState = {posts : [], orderBy:'vote'}
  */
 export function category(state =  initialState, action) {
 	switch(action.type) {
-		case RECIEVE_POSTS:
-			return {...state, posts: action.posts, title: action.category}
-		case VOTE_POST:
-            const newPosts = state.posts.slice()
-            const index = newPosts.findIndex((element) => element.id === action.post.id);
-            newPosts[index].voteScore = action.post.voteScore
-			return {...state, posts:newPosts}
-		case REMOVE_POST:
-			let posts = state.posts.filter((post) =>  post.id !== action.postId)
-			return {...state, posts: posts}
-		case ORDER_POSTS_BY_VOTE:
-            const newPostsVote = state.posts.slice()
-            const newOrderPostsByVote = newPostsVote.sort((a,b) => {
-            	if (a.voteScore < b.voteScore) return 1;
-                if (a.voteScore >= b.voteScore) return -1;
-                return 0
-            })
-			return {...state, posts: newOrderPostsByVote}
-		case ORDER_POSTS_BY_TIME:
-            const newPostsTime = state.posts.slice()
-            const newOrderPostsByTime = newPostsTime.sort((a,b) => {
-                if (a.timestamp > b.timestamp) return 1;
-                if (a.timestamp <= b.timestamp) return -1;
-                return 0
-            })
-            return {...state, posts: newOrderPostsByTime}
+        case RECIEVE_CATEGORIES :
+            const newCategories = action.categories.reduce((carry, item) => {
+                carry[item.path] = item
+                return carry
+            }, {});
+            const catOrdered = action.categories.map((item) => (
+                item.path
+            ));
+            return {...state, categories: newCategories, categoryList: catOrdered}
+        case PREPARE_ADD_POST:
+        case RECIEVE_POST:
+        case RECEIVE_POSTS:
+            return {...state, selectedCategory: action.category}
 		default:
 			return state
 	}	

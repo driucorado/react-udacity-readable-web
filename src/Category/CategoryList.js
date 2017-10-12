@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {fetchCategories} from './actions'
 import CategoryItem from './CategoryItem'
+import {category} from "./reducers/index";
 
 class CategoryList extends Component {
 
@@ -10,15 +11,15 @@ class CategoryList extends Component {
 	}
 
 	render() {
-		const {categories} = this.props;
+		const {categories, list} = this.props;
 		return (
 			<div className="row category-list">
-			{categories.map((category) => (
-				 	<CategoryItem 
-				 	key={category.path} 
-				 	path={category.path} 
-				 	name={category.name} />
-			))}
+				{list.map((category) => (
+					<CategoryItem
+						key={categories[category].path}
+						path={categories[category].path}
+						name={categories[category].name} />
+				))}
 			</div>)
 	}
 }
@@ -30,8 +31,8 @@ function mapDispatchToProps(dispatch) {
 	}
 }
 
-const  mapStateToProps = ({main}) => {
-	return {categories : main.categories}
+const  mapStateToProps = ({category}) => {
+	return {categories : category.categories, list: category.categoryList}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

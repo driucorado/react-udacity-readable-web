@@ -1,50 +1,46 @@
 import React, { Component } from 'react';
 import MainLayout from './MainLayout'
 import CategoryList from './Category/CategoryList'
-import {getAllPosts} from './Post/actions'
+import {getAllPosts, togglePostEdition} from './Post/actions'
 import PostList from './Post/PostList'
 import './style/css/Main/style/main.css'
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux'
 
-/**
- Default (Root)
- should list all available categories, which should link to a category view for that category
- should list all of the posts ordered by voteScore (highest score first)
- should have a control for changing the sort method for the list, including at minimum, order by voteScore and order by timestamp
- should have a control for adding a new post
- */
 class MainPage extends Component {
-	propTypes = {
-		user: PropTypes.string,
-		posts: PropTypes.array
-	}
 
 	componentDidMount() {
 		const {getAllPosts} = this.props
 		getAllPosts()
 	}
 	render() {
-		const {user, posts} = this.props
+		const {user, posts, postList, openPostEdition} = this.props
 		return (
 			<MainLayout title="Readable" currentUser={user} mainClass={`main_v01`} showTitle={true}>
 			<div className="container-fluid">
+				<div className="form-group" >
+				</div>
 				<CategoryList  />
 				<div>
 					<h3>Posts</h3>
 				</div>
-				<PostList posts={posts}/>
+				<PostList
+					posts={posts}
+					list={postList}
+				/>
 			</div>
 			</MainLayout>)
 	}
 }
 
 function mapDispatchToProps(dispatch) {
-	return {getAllPosts: () => dispatch(getAllPosts())}
+	return {
+		getAllPosts: () => dispatch(getAllPosts()),
+        togglePostEdition: (postId) => dispatch(togglePostEdition(postId))
+	}
 }
 
-const  mapStateToProps = ({user, category}) => {
-	return {user: user.user, posts: category.posts}
+const  mapStateToProps = ({user, post, main}) => {
+	return {user: user.user, posts: post.posts, postList: post.list, openPostEdition:main.openPostEdition}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage) 

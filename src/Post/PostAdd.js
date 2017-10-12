@@ -1,67 +1,78 @@
 import React, { Component } from 'react';
-import MainLayout from '../MainLayout'
-import {prepareAddPost, createPost, editPost, getPost, changeBody, changeTitle, backToCategory} from './actions'
+import {createPost, editPost, getPost, savePost, registerChangeData, togglePostEdition} from './actions'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
 
 class PostAdd extends Component {
-	componentDidMount() {
-		const {id,cat} = this.props.match.params
-		const {prepareAddPost, getPost}  = this.props 
-		if (id)  getPost(id)
-		if (cat) prepareAddPost(cat)
-	} 
 
 	handleSubmit = (e) => {
+		const {createPost, editPost, togglePostEdition, post, isPostPage} = this.props
 		e.preventDefault();
-		const {editPost, addPost, backToCategory, post, user} = this.props
-		const {id} = post
-		if (id) editPost(post)
-		else {
-			const newPost = {...post, user:user}
-			addPost(newPost)
-			//change state to return
+
+		if (post.id) {
+            editPost(post)
+            togglePostEdition(isPostPage ? post.id : null)
+		} else {
+            createPost(post)
+            togglePostEdition(null)
 		}
-        backToCategory(post.category)
+	}
+
+	onChange = (id, data) => {
+		const {registerChangeData} = this.props
+        registerChangeData(id, data)
 	}
 
 	render() {
-		const {post, redirectToCategory, changeTitle, changeBody} = this.props
-		const postTitle = (post.id) ? `${post.title}` : `New Post for ${post.category} category`
-		const saveButtonTitle =  (post.id) ? `Save Changes` : `Save Post`
-		const urlRedirect =  (post.id) ? `/post/${post.id}` : `/cat/${post.category}`
-		return ((redirectToCategory) ? <Redirect to={urlRedirect}/> :  <MainLayout mainClass={`post_add_v01`} title={postTitle}>
-				<form onSubmit={this.handleSubmit}>
-					<div className="form-group" >
-						<input className="form-control" value={post.title} onChange={(e) => changeTitle(e.target.value) } />
-					</div>
-					<div className="form-group" >
-						<textarea className="form-control" value={post.body} onChange={(e) => changeBody(e.target.value)} >
-						</textarea>
-					</div>
-					<div className="form-group" >
-						<input className="btn btn-primary" type="submit" value={saveButtonTitle} />
-					</div>
-				</form>
-			</MainLayout>)
+		const {post, categories, categoryList, selectedCategory} = this.props
+        const saveButtonTitle =  (post.id) ? `Save Changes` : `Create Post`
+		const showCategoriesList = categoryList.length === 0 ? [selectedCategory] : categoryList
+		return (
+			<div>
+			<form onSubmit={this.handleSubmit}>
+				<div className="form-group" >
+					<input className="form-control" value={post.title} placeholder={`Title`} onChange={(e) => this.onChange(post.id,{title:e.target.value})} />
+				</div>
+				<div className="form-group" >
+					<textarea className="form-control" value={post.body} placeholder={`Post Body`} onChange={(e) => this.onChange(post.id,{body:e.target.value})} >
+					</textarea>
+				</div>
+				<div className="form-group">
+					<select
+						value={post.category ? post.category: selectedCategory}
+						onChange={(e) => this.onChange(post.id,{category:e.target.value})}
+						className="form-control"
+					>
+						{showCategoriesList.map((category) =>
+							<option key={categories[category].path} value={categories[category].path}>{categories[category].name}</option>
+						)}
+					</select>
+				</div>
+				<div className="form-group" >
+					<input className="form-control" placeholder={`Author Name`} value={post.author} onChange={(e) => this.onChange(post.id,{author:e.target.value})} />
+				</div>
+				<div className="form-group" >
+					<input className="btn btn-primary" type="submit" value={saveButtonTitle} />
+				</div>
+			</form>
+			</div>)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	//({title, body, author, category})
 	return {
-		prepareAddPost: (cat) => dispatch(prepareAddPost(cat)),
-		addPost: (postData) => dispatch(createPost(postData)),
 		getPost: (id) => dispatch(getPost(id)),
-		editPost: (post) => dispatch(editPost(post)),
-		changeBody: (body) => dispatch(changeBody(body)),
-		changeTitle: (title) => dispatch(changeTitle(title)),
-        backToCategory: (category) => dispatch(backToCategory(category))
+        savePost: (postId) => dispatch(savePost(postId)),
+        editPost: (post) => dispatch(editPost(post)),
+        createPost: (post) => dispatch(createPost(post)),
+        togglePostEdition: (postId) => dispatch(togglePostEdition(postId)),
+        registerChangeData: (postId, data) => dispatch(registerChangeData(postId, data))
 	}
 }
 
-const  mapStateToProps = ({post, user}) => {
-	return {post: post.post, user: user.user, redirectToCategory: post.redirectToCategory}
+const  mapStateToProps = ({post, category}) => {
+	const postEditData = (post.currentPost) ? post.posts[post.currentPost] : post.newPost
+	return {post:postEditData, selectedCategory : category.selectedCategory, categories: category.categories, categoryList: category.categoryList}
 }
 	
 

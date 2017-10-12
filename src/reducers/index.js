@@ -4,16 +4,18 @@ import {user} from '../Login/reducers'
 import {comment} from '../Comment/reducers'
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import {RECIEVE_CATEGORIES} from '../Category/actions'
+import {BACK_TO_CATEGORY} from '../Post/actions'
 
-const initialState = {categories : []}
+const initialState = {showSaved: false, redirectToCategory:false}
 
 export function main(state = initialState, action) {
 	//console.log(action)
 	switch(action.type) {
-		case RECIEVE_CATEGORIES :  
-			return {...state, categories: action.categories}
-		default:
+        //navigation
+        case BACK_TO_CATEGORY:
+            //back to category page
+            return {...state, redirectToCategory:true}
+        default:
 			return state
 	}
 }
