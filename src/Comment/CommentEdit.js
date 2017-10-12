@@ -35,7 +35,7 @@ class CommentEdit extends React.Component {
                         <input className="form-control" placeholder={`Author Name`} value={comment.author} onChange={(e) => this.onChange(comment.id,{author:e.target.value})} />
                     </div>
                     <button type="submit" className="btn btn-sm btn-primary">
-                        {(comment.id) ? 'Edit Comment' : 'Add Comment'}
+                        {(comment.id) ? 'Edit Comment' : 'Add'}
                     </button>
                 </form>
             </div>

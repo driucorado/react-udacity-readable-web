@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom'
 import MainPage from './MainPage'
 import CategoryPage from './CategoryPage'
 import PostPage from './PostPage'
-import PostAdd from './Post/PostAdd'
+import PostAddForm from './PostAddForm'
 import LoginPage from './LoginPage'
 
 /*
@@ -18,15 +18,18 @@ class App extends Component {
             <Route  exact path="/login" render={({history}) => (
                 <LoginPage/>
             )} />
+          <Route path="/posts/post/new" exact render={({match, history}) => (
+              <PostAddForm match={match} />
+          )} />
             <Route  exact path="/" render={({history}) => (
                 <MainPage/>
             )} />
             <Route path="/:cat" exact render={({match, history}) => (
                 <CategoryPage match={match} />
             )} />
-            <Route path="/cat/:cat/posts" exact render={({match, history}) => (
-                <PostAdd match={match} />
-            )} />
+              <Route path="/:cat/:id/edit" exact render={({match, history}) => (
+                  <PostAddForm match={match} />
+              )} />
             <Route path="/:cat/:id" exact render={({match}) => (
                 <PostPage match={match} />
             )} />

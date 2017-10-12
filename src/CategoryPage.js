@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import MainLayout from './MainLayout'
-import {fetchPosts, emptyCurrentPost} from './Post/actions'
+import {fetchPosts, emptyCurrentPost, orderPostsByVote} from './Post/actions'
+import {backToCategory} from "./Post/actions/index";
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchCategories} from './Category/actions'
@@ -10,8 +11,9 @@ import PostList from './Post/PostList'
 class CategoryPage extends Component {
     componentDidMount() {
         const {cat} = this.props.match.params
-        const {fetchCategories} = this.props
+        const {fetchCategories, backToCategory} = this.props
         fetchCategories()
+        backToCategory()
         this.props.fetchPosts(cat)
         this.props.emptyCurrentPost()
     }
@@ -37,7 +39,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchPosts: (category) => dispatch(fetchPosts(category)),
         emptyCurrentPost: () => dispatch(emptyCurrentPost()),
-        fetchCategories: () => dispatch(fetchCategories())
+        fetchCategories: () => dispatch(fetchCategories()),
+        backToCategory: () => dispatch(backToCategory(null))
     }
 }
 

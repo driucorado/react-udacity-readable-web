@@ -25,7 +25,7 @@ class PostAdd extends Component {
 	render() {
 		const {post, categories, categoryList, selectedCategory} = this.props
         const saveButtonTitle =  (post.id) ? `Save Changes` : `Create Post`
-		const showCategoriesList = categoryList.length === 0 ? [selectedCategory] : categoryList
+		const showCategoriesList = categoryList.length === 0 ? (selectedCategory ? [selectedCategory]: [] )  : categoryList
 		return (
 			<div>
 			<form onSubmit={this.handleSubmit}>

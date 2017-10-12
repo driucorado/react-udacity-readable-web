@@ -1,4 +1,5 @@
 import * as PostAPI from '../../api/PostApi'
+import {fetchCategories} from "../../Category/actions/index";
 
 //changes
 export const CHANGE_BODY_POST = "CHANGE_BODY_POST"
@@ -59,18 +60,6 @@ export function backToCategory(category) {
 
 }
 
-export function changeBody(body, postId) {
-	return {type:CHANGE_BODY_POST,  body:body, postId:postId}
-}
-
-export function changeTitle(title, postId) {
-	return {type:CHANGE_TITLE_POST,  title:title, postId:postId}
-}
-
-export function prepareAddPost(cat) {
-	return {type:PREPARE_ADD_POST, category:cat, post: {body: '', title: '', category:cat, id: 'new'}}
-}
-
 export function addPost(post) {
 	return {type:ADD_POST, post}
 }
@@ -120,12 +109,14 @@ export const getAllPosts = () => dispatch => (
 	PostAPI
 	.getAll()
 	.then((posts) => dispatch(recievePosts({category:undefined,posts:posts})))
+    .then(posts => dispatch(orderPostsByVote()))
 )
 
 export const fetchPosts = (category) => dispatch => (
     PostAPI
     .getByCategory(category)
     .then(posts => dispatch(recievePosts({category,posts})))
+	.then(posts => dispatch(orderPostsByVote()))
 )
 
 export const ratingPost = (post, option) => dispatch => (

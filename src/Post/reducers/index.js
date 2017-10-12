@@ -1,9 +1,9 @@
 
-import {REMOVE_POST, ADD_POST, RECEIVE_POSTS, PREPARE_ADD_POST, RECIEVE_POST, CHANGE_POST_DATA, VOTE_POST, ORDER_POSTS_BY_VOTE, ORDER_POSTS_BY_TIME, OPEN_POST_EDITION, EMPTY_CURRENT_POST} from '../actions'
+import {REMOVE_POST, ADD_POST, RECEIVE_POSTS, PREPARE_ADD_POST, RECIEVE_POST, CHANGE_POST_DATA, VOTE_POST, ORDER_POSTS_BY_VOTE, ORDER_POSTS_BY_TIME, OPEN_POST_EDITION, EMPTY_CURRENT_POST, BACK_TO_CATEGORY} from '../actions'
 import {RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/actions/index";
 
 
-const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: '', title: ''}, openPostEdition: false}
+const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: '', title: '', category: '', author: ''}, openPostEdition: false, backToCategory:null}
 
 /**
  * Post Reducer , contains all the information for one post
@@ -14,6 +14,8 @@ const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: ''
 export function post(state = initialState, action) {
 	const {post} = action
 	switch(action.type) {
+        case BACK_TO_CATEGORY:
+            return {...state, backToCategory:action.category, currentPost:null}
 	    //Comment
         case REMOVE_COMMENT:
             return {...state}
@@ -40,7 +42,7 @@ export function post(state = initialState, action) {
             }
             return state
         case RECIEVE_POST:
-			return {...state, currentPost: post.id, posts: {...state.posts, [action.post.id] : action.post}}
+			return {...state, backToCategory:null, currentPost: post.id, posts: {...state.posts, [action.post.id] : action.post}}
         case PREPARE_ADD_POST:
             return {...state, currentPost: action.post.id, posts: {...state.posts, [action.post.id]: action.post}}
         case RECEIVE_COMMENTS: //one post
@@ -49,7 +51,7 @@ export function post(state = initialState, action) {
 		//POSTS
         case RECEIVE_POSTS:
             const newPostsReceived = action.posts.reduce((carry, item) => {
-                carry[item.id] = item
+                carry[item.id] = {...item, commentCount:-1}
                 return carry
             }, {});
             const postOrdered = action.posts.map((item) => (

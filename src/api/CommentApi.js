@@ -78,10 +78,7 @@ export const update = (comment) => {
 export const add = (comment) => {
   const newComment = Object.assign({
   	id:uuid(),
-  	timestamp:Date.now(),
-  	body:null,
-  	author:null,
-  	parentId:null
+  	timestamp:Date.now()
   }, comment)
   return fetch(`${api}/comments`, {
     method: 'POST',

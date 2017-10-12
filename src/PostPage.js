@@ -61,6 +61,7 @@ class PostPage extends Component {
 				      <footer className="blockquote-footer">{post ? post.author : ''}</footer>
 				    </blockquote>
 					  <br/>
+					  <div>created at {new Date(post.timestamp).toLocaleString('en-US')}</div>
 					  <div>total comments <span className="badge badge-dark">{post.commentCount}</span></div>
 					  <div>total score <span className="badge badge-info">{post.voteScore}</span></div>
 				  </div>
