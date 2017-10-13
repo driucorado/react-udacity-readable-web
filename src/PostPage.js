@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import MainLayout from './MainLayout'
 import CommentList from './Comment/CommentList'
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {getPost, ratingPost, togglePostEdition} from './Post/actions'
 import {fetchCategories} from './Category/actions'

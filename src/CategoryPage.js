@@ -11,7 +11,7 @@ import PostList from './Post/PostList'
 class CategoryPage extends Component {
     componentDidMount() {
         const {cat} = this.props.match.params;
-        const {fetchCategories, backToCategory, categories, title} = this.props;
+        const {fetchCategories, backToCategory} = this.props;
         fetchCategories();
         backToCategory();
         this.props.fetchPosts(cat);

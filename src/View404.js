@@ -4,15 +4,11 @@ import {Link} from 'react-router-dom'
 
 
 class View404 extends Component {
-    componentDidMount() {
-
-    }
 
     render() {
-        const {posts, title, user, postList, openPostEdition} = this.props
         return (
-            <MainLayout currentUser={user} mainClass={`category_v01`} title={
-                <span><Link to={`/`}>Readable</Link>/{title}</span>
+            <MainLayout mainClass={`category_v01`} title={
+                <span><Link to={`/`}>Readable</Link>/NOT FOUND</span>
             }>
                 <div>NOT FOUND</div>
             </MainLayout>)
