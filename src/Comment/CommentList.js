@@ -1,13 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {
-    saveComment,
-    deleteComment,
-    emptyAddComment,
-    editComment,
-    ratingComment,
-    setCurrentComment
-} from './actions'
+import {deleteComment, editComment, emptyAddComment, ratingComment, saveComment, setCurrentComment} from './actions'
 import CommentEdit from './CommentEdit'
 
 const VoteOption = {
@@ -31,16 +24,18 @@ class CommmentList extends Component {
     render() {
         const {comments, deleteComment, setCurrentComment, commentList, openCommentEdition} = this.props
         return (<div className="post-comments">
-            { openCommentEdition && (<CommentEdit/>)}
+            {openCommentEdition && (<CommentEdit/>)}
             <ol className="list-group list-group-flush">
                 {commentList.map((comment) => (
                     <li key={comments[comment].id} className="list-group-item">
-                        <button type="button" onClick={(e) => deleteComment(comments[comment].id)} className="close"
+                        <button type="button" onClick={(e) => deleteComment(comment, comments[comment].parentId)}
+                                className="close"
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <p>
-                            <span className={`badge badge-pill ${(comments[comment].voteScore > 0) ? 'badge-success' : 'badge-warning'} `}>
+                            <span
+                                className={`badge badge-pill ${(comments[comment].voteScore > 0) ? 'badge-success' : 'badge-warning'} `}>
                                 {comments[comment].voteScore}
                             </span>
                         </p>
@@ -62,7 +57,9 @@ class CommmentList extends Component {
                     </li>
                 ))}
             </ol>
-            <button type="button" onClick={(e) => setCurrentComment(null)} className="btn btn-sm btn-primary">Add Comment</button>
+            <button type="button" onClick={(e) => setCurrentComment(null)} className="btn btn-sm btn-primary">Add
+                Comment
+            </button>
         </div>)
     }
 }
@@ -71,7 +68,7 @@ function mapDispatchToProps(dispatch) {
     return {
         saveComment: (comment) => dispatch(saveComment(comment)),
         emptyAddComment: () => dispatch(emptyAddComment()),
-        deleteComment: (id) => dispatch(deleteComment(id)),
+        deleteComment: (id, postId) => dispatch(deleteComment(id, postId)),
         editComment: (comment) => dispatch(editComment(comment)),
         setCurrentComment: (comment) => dispatch(setCurrentComment(comment)),
         voteComment: (option, comment) => dispatch(ratingComment(option, comment))

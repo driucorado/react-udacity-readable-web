@@ -1,9 +1,28 @@
+import {
+    ADD_POST,
+    BACK_TO_CATEGORY,
+    CHANGE_POST_DATA,
+    EMPTY_CURRENT_POST,
+    OPEN_POST_EDITION,
+    ORDER_POSTS_BY_TIME,
+    ORDER_POSTS_BY_VOTE,
+    PREPARE_ADD_POST,
+    RECEIVE_POSTS,
+    RECIEVE_POST,
+    REMOVE_POST,
+    VOTE_POST
+} from '../actions'
+import {ADD_COMMENT, RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/actions/index";
 
-import {REMOVE_POST, ADD_POST, RECEIVE_POSTS, PREPARE_ADD_POST, RECIEVE_POST, CHANGE_POST_DATA, VOTE_POST, ORDER_POSTS_BY_VOTE, ORDER_POSTS_BY_TIME, OPEN_POST_EDITION, EMPTY_CURRENT_POST, BACK_TO_CATEGORY} from '../actions'
-import {RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/actions/index";
 
-
-const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: '', title: '', category: '', author: ''}, openPostEdition: false, backToCategory:null}
+const initialState = {
+    currentPost: null,
+    posts: {},
+    list: [],
+    newPost: {body: '', title: '', category: 'react', author: ''},
+    openPostEdition: false,
+    backToCategory: null
+}
 
 /**
  * Post Reducer , contains all the information for one post
@@ -12,18 +31,31 @@ const initialState = {currentPost: null, posts: {}, list: [], newPost: {body: ''
  * @returns {*}
  */
 export function post(state = initialState, action) {
-	const {post} = action
-	switch(action.type) {
+    const {post} = action
+    switch (action.type) {
         case BACK_TO_CATEGORY:
-            return {...state, backToCategory:action.category, currentPost:null}
-	    //Comment
+            return {...state, backToCategory: action.category, currentPost: null}
+        //Comment
         case REMOVE_COMMENT:
-            return {...state}
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.postId]: {
+                        ...state.posts[action.postId],
+                        commentCount: (state.posts[action.postId].commentCount - 1)
+                    }
+                }
+            }
         case EMPTY_CURRENT_POST:
             return {...state, currentPost: null}
         case ADD_POST:
-            return {...state, posts: {...state.posts, [action.post.id] : action.post}, list:[...state.list,action.post.id]}
-		//post
+            return {
+                ...state,
+                posts: {...state.posts, [action.post.id]: action.post},
+                list: [...state.list, action.post.id]
+            }
+        //post
         case OPEN_POST_EDITION:
             if (action.postId) {
                 return {
@@ -32,25 +64,54 @@ export function post(state = initialState, action) {
                     posts: {...state.posts, [action.postId]: {...state.posts[action.postId]}}
                 }
             } else {
-                return {...state, currentPost: null, openPostEdition: !state.openPostEdition, newPost: {body: '', title: ''}}
+                return {
+                    ...state,
+                    currentPost: null,
+                    openPostEdition: !state.openPostEdition,
+                    newPost: {body: '', title: ''}
+                }
             }
         case CHANGE_POST_DATA:
             if (action.postId) {
-                return {...state, posts: {...state.posts, [action.postId]: {...state.posts[action.postId], ...action.data}}}
+                return {
+                    ...state,
+                    posts: {...state.posts, [action.postId]: {...state.posts[action.postId], ...action.data}}
+                }
             } else {
                 return {...state, newPost: {...state.newPost, ...action.data}}
             }
         case RECIEVE_POST:
-			return {...state, backToCategory:null, currentPost: post.id, posts: {...state.posts, [action.post.id] : action.post}}
+            return {
+                ...state,
+                backToCategory: null,
+                currentPost: post.id,
+                posts: {...state.posts, [action.post.id]: action.post}
+            }
         case PREPARE_ADD_POST:
             return {...state, currentPost: action.post.id, posts: {...state.posts, [action.post.id]: action.post}}
         case RECEIVE_COMMENTS: //one post
-            return {...state, posts: {...state.posts, [action.postId]: {...state.posts[action.postId], commentCount: action.comments.length}}}
-
-		//POSTS
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.postId]: {...state.posts[action.postId], commentCount: action.comments.length}
+                }
+            }
+        case ADD_COMMENT:
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.comment.parentId]: {
+                        ...state.posts[action.comment.parentId],
+                        commentCount: (state.posts[action.comment.parentId].commentCount + 1)
+                    }
+                }
+            }
+        //POSTS
         case RECEIVE_POSTS:
             const newPostsReceived = action.posts.reduce((carry, item) => {
-                carry[item.id] = {...item, commentCount:-1}
+                carry[item.id] = {...item, commentCount: -1}
                 return carry
             }, {});
             const postOrdered = action.posts.map((item) => (
@@ -59,14 +120,20 @@ export function post(state = initialState, action) {
             return {...state, posts: newPostsReceived, list: postOrdered, title: action.category}
         // VOTE_POST change the vote
         case VOTE_POST:
-            return {...state, posts: {...state.posts, [action.post.id] : {...state.posts[action.post.id], voteScore: action.post.voteScore}}}
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.post.id]: {...state.posts[action.post.id], voteScore: action.post.voteScore}
+                }
+            }
         // REMOVE_POST remove the post from the list
         case REMOVE_POST:
-        	const newPostList = state.list.filter((post) => post !== action.postId)
+            const newPostList = state.list.filter((post) => post !== action.postId)
             return {...state, list: newPostList}
         case ORDER_POSTS_BY_VOTE:
             const newPostsVote = state.list.slice()
-			const newOrderPostsByVote = newPostsVote.map((post) => (state.posts[post])).sort((a,b) => {
+            const newOrderPostsByVote = newPostsVote.map((post) => (state.posts[post])).sort((a, b) => {
                 if (a.voteScore < b.voteScore) return 1;
                 if (a.voteScore >= b.voteScore) return -1;
                 return 0
@@ -74,13 +141,13 @@ export function post(state = initialState, action) {
             return {...state, list: newOrderPostsByVote}
         case ORDER_POSTS_BY_TIME:
             const newPostsTime = state.list.slice()
-            const newOrderPostsByTime = newPostsTime.map((post) => (state.posts[post])).sort((a,b) => {
+            const newOrderPostsByTime = newPostsTime.map((post) => (state.posts[post])).sort((a, b) => {
                 if (a.timestamp > b.timestamp) return 1;
                 if (a.timestamp <= b.timestamp) return -1;
                 return 0
             }).map((post) => (post.id))
             return {...state, list: newOrderPostsByTime}
-		default:
-			return state
-	}
+        default:
+            return state
+    }
 }

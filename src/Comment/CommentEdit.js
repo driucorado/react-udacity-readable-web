@@ -1,5 +1,5 @@
 import React from 'react'
-import {registerChangeData, editComment, saveComment} from './actions'
+import {editComment, registerChangeData, saveComment} from './actions'
 import {connect} from 'react-redux'
 
 class CommentEdit extends React.Component {
@@ -28,10 +28,12 @@ class CommentEdit extends React.Component {
                 <form onSubmit={(e) => this.handleSubmit(e)}>
                     <div className="form-group">
                         <label htmlFor="commentBody">Comment</label>
-                        <textarea id="commentBody" onChange={(e) => this.onChange(comment.id, {body:e.target.value})} value={comment.body} className="form-control"/>
+                        <textarea id="commentBody" onChange={(e) => this.onChange(comment.id, {body: e.target.value})}
+                                  value={comment.body} className="form-control"/>
                     </div>
-                    <div className="form-group" >
-                        <input className="form-control" placeholder={`Author Name`} value={comment.author} onChange={(e) => this.onChange(comment.id,{author:e.target.value})} />
+                    <div className="form-group">
+                        <input className="form-control" placeholder={`Author Name`} value={comment.author}
+                               onChange={(e) => this.onChange(comment.id, {author: e.target.value})}/>
                     </div>
                     <button type="submit" className="btn btn-sm btn-primary">
                         {(comment.id) ? 'Edit Comment' : 'Add'}
@@ -51,9 +53,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const  mapStateToProps = ({comment, post}) => {
+const mapStateToProps = ({comment, post}) => {
     const postEditData = (comment.currentComment) ? comment.comments[comment.currentComment] : comment.newComment
-    return {comment:postEditData, post:post.currentPost}
+    return {comment: postEditData, post: post.currentPost}
 }
 
 

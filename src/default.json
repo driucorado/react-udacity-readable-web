@@ -1,6 +1,6 @@
 {
-	"api" : {
-		"endpoint" : "http://localhost:5001",
-		"token" : "gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU="
-	}
+  "api": {
+    "endpoint": "http://localhost:5001",
+    "token": "gerardo_uNnYSnfvM1UoZhUzNXCe+BEzQwlHpPfgY8tPoGFyyZU="
+  }
 }

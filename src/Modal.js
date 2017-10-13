@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 export default class Modal extends React.Component {
     //https://peteris.rocks/blog/modal-window-in-react-from-scratch/
@@ -28,7 +28,8 @@ export default class Modal extends React.Component {
         return (
             <div>
                 <div style={modalStyle}>{this.props.children}</div>
-                <div style={backdropStyle} onClick={e => this.close(e)}/>}
+                <div style={backdropStyle} onClick={e => this.close(e)}/>
+                }
             </div>
         )
     }
