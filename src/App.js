@@ -11,9 +11,6 @@ import View404 from "./View404";
  * App Class (root router)
  */
 class App extends Component {
-    componentDidMount() {
-    }
-
     render() {
         return (
             <div className="readable_app readable_v01">
@@ -26,7 +23,7 @@ class App extends Component {
                 <Route exact path="/" render={({history}) => (
                     <MainPage/>
                 )}/>
-                <Route path='/404' exact={true} component={View404} />
+                <Route path='/404' exact={true} component={View404}/>
                 <Route path="/:cat" exact render={({match, history}) => (
                     <CategoryPage match={match}/>
                 )}/>

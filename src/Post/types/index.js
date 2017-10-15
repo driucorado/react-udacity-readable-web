@@ -1,0 +1,20 @@
+export const CHANGE_POST_DATA = "CHANGE_DATA"
+
+export const ADD_POST = 'ADD_POST'
+export const OPEN_POST_EDITION = 'OPEN_POST_EDITION'
+
+export const UPDATE_POST = 'UPDATE_POST'
+export const REMOVE_POST = 'REMOVE_POST'
+export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const VOTE_POST = 'VOTE_POST'
+
+export const RECEIVE_POST = 'RECEIVE_POST'
+export const BACK_TO_CATEGORY = 'BACK_TO_CATEGORY'
+
+export const ORDER_POSTS_BY_VOTE = 'ORDER_POSTS_BY_VOTE'
+export const ORDER_POSTS_BY_TIME = 'ORDER_POSTS_BY_TIME'
+
+export const PREPARE_ADD_POST = 'PREPARE_ADD_POST'
+
+export const SAVE_POST = 'SAVE_POST'
+export const EMPTY_CURRENT_POST = 'EMPTY_CURRENT_POST'

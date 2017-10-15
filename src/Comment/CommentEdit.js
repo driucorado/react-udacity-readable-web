@@ -1,18 +1,25 @@
 import React from 'react'
-import {editComment, registerChangeData, saveComment} from './actions'
+import {editComment, prepareAddComment, registerChangeData, saveComment} from './actions'
 import {connect} from 'react-redux'
 
 class CommentEdit extends React.Component {
+    componentDidMount() {
+        const {prepareAddComment} = this.props
+        prepareAddComment()
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {saveComment, editComment, comment, post, user} = this.props
+        const {saveComment, editComment, prepareAddComment, comment, post, user} = this.props
         if (comment.id) {
             editComment(comment)
         } else {
             const newComment = {...comment, parentId: post, author: user}
             saveComment(newComment)
+            prepareAddComment()
         }
+
+
         // emptyAddComment()
     }
 
@@ -29,14 +36,15 @@ class CommentEdit extends React.Component {
                     <div className="form-group">
                         <label htmlFor="commentBody">Comment</label>
                         <textarea id="commentBody" onChange={(e) => this.onChange(comment.id, {body: e.target.value})}
-                                  value={comment.body} className="form-control"/>
+                                  value={comment ? comment.body : ''} className="form-control"/>
                     </div>
                     <div className="form-group">
-                        <input className="form-control" placeholder={`Author Name`} value={comment.author}
+                        <input className="form-control" placeholder={`Author Name`}
+                               value={comment ? comment.author : ''}
                                onChange={(e) => this.onChange(comment.id, {author: e.target.value})}/>
                     </div>
                     <button type="submit" className="btn btn-sm btn-primary">
-                        {(comment.id) ? 'Edit Comment' : 'Add'}
+                        {(comment && comment.id) ? 'Edit Comment' : 'Add'}
                     </button>
                 </form>
             </div>
@@ -49,7 +57,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         registerChangeData: (commentId, data) => dispatch(registerChangeData(commentId, data)),
         editComment: (comment) => dispatch(editComment(comment)),
-        saveComment: (comment) => dispatch(saveComment(comment))
+        saveComment: (comment) => dispatch(saveComment(comment)),
+        prepareAddComment: () => dispatch(prepareAddComment())
     }
 }
 

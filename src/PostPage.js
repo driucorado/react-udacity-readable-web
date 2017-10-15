@@ -3,7 +3,7 @@ import MainLayout from './MainLayout'
 import CommentList from './Comment/CommentList'
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'
-import {getPost, ratingPost, togglePostEdition} from './Post/actions'
+import {deletePost, getPost, ratingPost, togglePostEdition} from './Post/actions'
 import {fetchCategories} from './Category/actions'
 import {getCommentsByPost} from './Comment/actions'
 import PostAdd from './Post/PostAdd'
@@ -33,6 +33,13 @@ class PostPage extends Component {
         ratingPost(newPost, option)
     }
 
+    deletePost = (post) => {
+        const {deletePost} = this.props
+        if (window.confirm(`Are you sure you want to delete this post "${post.title}" ?`)) {
+            deletePost(post.id)
+        }
+    }
+
     render() {
         const {cat} = this.props.match.params
         const {post, user, togglePostEdition, openPostEdition} = this.props
@@ -47,9 +54,10 @@ class PostPage extends Component {
                         to={`/${post.id ? post.category : cat}`}>{post.id ? post.category : cat}</Link>/{post.id ? post.title : ''}
 				</span>
             }>
-                { (post.id) && (
+                {(post.id) && (
                     <div className="btn-group" role="group">
-                        <button type="button" onClick={() => togglePostEdition(post.id)} className="btn btn-sm btn-primary">
+                        <button type="button" onClick={() => togglePostEdition(post.id)}
+                                className="btn btn-sm btn-primary">
                             Edit Post
                         </button>
                         <button type="button" onClick={() => this.votePost(VoteOption.UP, post)}
@@ -57,6 +65,9 @@ class PostPage extends Component {
                         </button>
                         <button type="button" onClick={() => this.votePost(VoteOption.DOWN, post)}
                                 className="btn btn-sm btn-warning">Vote Down
+                        </button>
+                        <button type="button" onClick={() => this.deletePost(post)}
+                                className="btn btn-sm btn-danger">Delete Post
                         </button>
                     </div>
                 )}
@@ -76,8 +87,8 @@ class PostPage extends Component {
                         <div>total score <span className="badge badge-info">{post.voteScore}</span></div>
                     </div>
                 </div>
-                { (post.id) && (
-                <CommentList/>
+                {(post.id) && (
+                    <CommentList/>
                 )}
             </MainLayout>)
     }
@@ -91,7 +102,8 @@ function mapDispatchToProps(dispatch) {
         getComments: (data) => dispatch(getCommentsByPost(data)),
         fetchCategories: () => dispatch(fetchCategories()),
         togglePostEdition: (postId) => dispatch(togglePostEdition(postId)),
-        ratingPost: (postId, option) => dispatch(ratingPost(postId, option))
+        ratingPost: (postId, option) => dispatch(ratingPost(postId, option)),
+        deletePost: (postId) => dispatch(deletePost(postId))
     }
 }
 

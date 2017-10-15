@@ -1,5 +1,5 @@
-import {PREPARE_ADD_POST, RECEIVE_POSTS, RECIEVE_POST} from '../../Post/actions'
-import {RECIEVE_CATEGORIES} from '../../Category/actions'
+import {PREPARE_ADD_POST, RECEIVE_POST, RECEIVE_POSTS} from '../../Post/types'
+import {RECEIVE_CATEGORIES} from '../../Category/types'
 
 const initialState = {selectedCategory: null, categories: {}, categoryList: []}
 
@@ -11,7 +11,7 @@ const initialState = {selectedCategory: null, categories: {}, categoryList: []}
  */
 export function category(state = initialState, action) {
     switch (action.type) {
-        case RECIEVE_CATEGORIES :
+        case RECEIVE_CATEGORIES :
             const newCategories = action.categories.reduce((carry, item) => {
                 carry[item.path] = item
                 return carry
@@ -21,7 +21,7 @@ export function category(state = initialState, action) {
             ));
             return {...state, categories: newCategories, categoryList: catOrdered}
         case PREPARE_ADD_POST:
-        case RECIEVE_POST:
+        case RECEIVE_POST:
         case RECEIVE_POSTS:
             return {...state, selectedCategory: action.category}
         default:

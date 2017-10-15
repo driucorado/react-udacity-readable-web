@@ -28,12 +28,12 @@ class CategoryPage extends Component {
                 <span><Link to={`/`}>Readable</Link>/{title}</span>
             }>
                 <h1>{existCat ? title : `Category "${title}" Not Found`}</h1>
-                { (existCat) && (
-                <PostList
-                    posts={posts}
-                    list={postList}
-                    openPostEdition={openPostEdition}
-                />)}
+                {(existCat) && (
+                    <PostList
+                        posts={posts}
+                        list={postList}
+                        openPostEdition={openPostEdition}
+                    />)}
             </MainLayout>)
     }
 

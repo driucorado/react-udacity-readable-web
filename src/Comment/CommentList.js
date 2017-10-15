@@ -1,6 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {deleteComment, editComment, emptyAddComment, ratingComment, saveComment, setCurrentComment} from './actions'
+import {
+    closeAddComment,
+    deleteComment,
+    editComment,
+    emptyAddComment,
+    ratingComment,
+    saveComment,
+    setCurrentComment
+} from './actions'
 import CommentEdit from './CommentEdit'
 
 const VoteOption = {
@@ -20,11 +28,24 @@ class CommmentList extends Component {
         voteComment(option, newComment)
     }
 
+    toggleEditComment = () => {
+        const {openCommentEdition, setCurrentComment, closeAddComment} = this.props
+        if (openCommentEdition) {
+            closeAddComment()
+        } else {
+            setCurrentComment(null)
+
+        }
+    }
+
 
     render() {
         const {comments, deleteComment, setCurrentComment, commentList, openCommentEdition} = this.props
         return (<div className="post-comments">
             {openCommentEdition && (<CommentEdit/>)}
+            <button type="button" onClick={this.toggleEditComment} className="btn btn-sm btn-primary">
+                {(openCommentEdition) ? `Close` : `Add Comment`}
+            </button>
             <ol className="list-group list-group-flush">
                 {commentList.map((comment) => (
                     <li key={comments[comment].id} className="list-group-item">
@@ -57,9 +78,6 @@ class CommmentList extends Component {
                     </li>
                 ))}
             </ol>
-            <button type="button" onClick={(e) => setCurrentComment(null)} className="btn btn-sm btn-primary">Add
-                Comment
-            </button>
         </div>)
     }
 }
@@ -71,7 +89,8 @@ function mapDispatchToProps(dispatch) {
         deleteComment: (id, postId) => dispatch(deleteComment(id, postId)),
         editComment: (comment) => dispatch(editComment(comment)),
         setCurrentComment: (comment) => dispatch(setCurrentComment(comment)),
-        voteComment: (option, comment) => dispatch(ratingComment(option, comment))
+        voteComment: (option, comment) => dispatch(ratingComment(option, comment)),
+        closeAddComment: () => dispatch(closeAddComment())
     }
 }
 

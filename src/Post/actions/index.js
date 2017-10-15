@@ -1,29 +1,19 @@
+import {
+    ADD_POST,
+    BACK_TO_CATEGORY,
+    CHANGE_POST_DATA,
+    EMPTY_CURRENT_POST,
+    OPEN_POST_EDITION,
+    ORDER_POSTS_BY_TIME,
+    ORDER_POSTS_BY_VOTE,
+    RECEIVE_POST,
+    RECEIVE_POSTS,
+    REMOVE_POST,
+    SAVE_POST,
+    UPDATE_POST,
+    VOTE_POST
+} from '../types'
 import * as PostAPI from '../../api/PostApi'
-
-//changes
-export const CHANGE_BODY_POST = "CHANGE_BODY_POST"
-export const CHANGE_TITLE_POST = "CHANGE_TITLE_POST"
-export const CHANGE_POST_DATA = "CHANGE_DATA"
-
-export const ADD_POST = 'ADD_POST'
-export const OPEN_POST_EDITION = 'OPEN_POST_EDITION'
-
-export const UPDATE_POST = 'UPDATE_POST'
-export const REMOVE_POST = 'REMOVE_POST'
-export const GET_POST = 'GET_POST'
-export const RECEIVE_POSTS = 'RECEIVE_POSTS'
-export const VOTE_POST = 'VOTE_POST'
-
-export const RECIEVE_POST = 'RECIEVE_POST'
-export const BACK_TO_CATEGORY = 'BACK_TO_CATEGORY'
-
-export const ORDER_POSTS_BY_VOTE = 'ORDER_POSTS_BY_VOTE'
-export const ORDER_POSTS_BY_TIME = 'ORDER_POSTS_BY_TIME'
-
-export const PREPARE_ADD_POST = 'PREPARE_ADD_POST'
-
-export const SAVE_POST = 'SAVE_POST'
-export const EMPTY_CURRENT_POST = 'EMPTY_CURRENT_POST'
 
 export function emptyCurrentPost() {
     return {type: EMPTY_CURRENT_POST}
@@ -63,8 +53,8 @@ export function addPost(post) {
     return {type: ADD_POST, post}
 }
 
-export function updatePost({title, body, author, category, id}) {
-    return {type: UPDATE_POST, id, title, body, author, category}
+export function updatePost(post) {
+    return {type: UPDATE_POST, ...post}
 }
 
 export const removePost = (postId) => {
@@ -72,7 +62,7 @@ export const removePost = (postId) => {
 }
 
 export function receivePost(data) {
-    return {type: RECIEVE_POST, post: data, category: data.category}
+    return {type: RECEIVE_POST, post: data, category: data.category}
 }
 
 export const votePost = (post, option) => {

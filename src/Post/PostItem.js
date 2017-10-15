@@ -12,8 +12,10 @@ class PostItem extends Component {
     }
 
     deletePost = (id) => {
-        const {deletePost} = this.props
-        deletePost(id)
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            const {deletePost} = this.props
+            deletePost(id)
+        }
     }
 
     editPost = (id) => {

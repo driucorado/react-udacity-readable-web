@@ -7,19 +7,20 @@ import {
     ORDER_POSTS_BY_TIME,
     ORDER_POSTS_BY_VOTE,
     PREPARE_ADD_POST,
+    RECEIVE_POST,
     RECEIVE_POSTS,
-    RECIEVE_POST,
     REMOVE_POST,
     VOTE_POST
-} from '../actions'
-import {ADD_COMMENT, RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/actions/index";
+} from '../types'
+import {ADD_COMMENT, RECEIVE_COMMENTS, REMOVE_COMMENT} from "../../Comment/types";
 
+const initialStateNewPost = {body: '', title: '', category: 'react', author: ''}
 
 const initialState = {
     currentPost: null,
     posts: {},
     list: [],
-    newPost: {body: '', title: '', category: 'react', author: ''},
+    newPost: {...initialStateNewPost},
     openPostEdition: false,
     backToCategory: null
 }
@@ -33,6 +34,7 @@ const initialState = {
 export function post(state = initialState, action) {
     const {post} = action
     switch (action.type) {
+        //Back to category
         case BACK_TO_CATEGORY:
             return {...state, backToCategory: action.category, currentPost: null}
         //Comment
@@ -68,7 +70,7 @@ export function post(state = initialState, action) {
                     ...state,
                     currentPost: null,
                     openPostEdition: !state.openPostEdition,
-                    newPost: {body: '', title: ''}
+                    newPost: {...initialStateNewPost}
                 }
             }
         case CHANGE_POST_DATA:
@@ -80,7 +82,7 @@ export function post(state = initialState, action) {
             } else {
                 return {...state, newPost: {...state.newPost, ...action.data}}
             }
-        case RECIEVE_POST:
+        case RECEIVE_POST:
             return {
                 ...state,
                 backToCategory: null,
@@ -108,7 +110,7 @@ export function post(state = initialState, action) {
                     }
                 }
             }
-        //POSTS
+        //RECEIVE ALL POSTS
         case RECEIVE_POSTS:
             const newPostsReceived = action.posts.reduce((carry, item) => {
                 carry[item.id] = {...item, commentCount: -1}
@@ -118,7 +120,7 @@ export function post(state = initialState, action) {
                 item.id
             ));
             return {...state, posts: newPostsReceived, list: postOrdered, title: action.category}
-        // VOTE_POST change the vote
+
         case VOTE_POST:
             return {
                 ...state,
@@ -130,7 +132,8 @@ export function post(state = initialState, action) {
         // REMOVE_POST remove the post from the list
         case REMOVE_POST:
             const newPostList = state.list.filter((post) => post !== action.postId)
-            return {...state, list: newPostList}
+            const isTheCurrentPost = state.currentPost === action.postId
+            return {...state, list: newPostList, currentPost: (isTheCurrentPost) ? null : state.currentPost}
         case ORDER_POSTS_BY_VOTE:
             const newPostsVote = state.list.slice()
             const newOrderPostsByVote = newPostsVote.map((post) => (state.posts[post])).sort((a, b) => {

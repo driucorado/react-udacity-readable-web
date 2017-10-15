@@ -1,10 +1,9 @@
 import * as CategoryApi from '../../api/CategoryApi'
+import {RECEIVE_CATEGORIES} from "../types/index";
 
-export const RECIEVE_CATEGORIES = 'RECIEVE_CATEGORIES'
-export const RECIEVE_WIKI_INFO = 'RECIEVE_WIKI_INFO'
 
 export const recieveCategories = categories => ({
-    type: RECIEVE_CATEGORIES,
+    type: RECEIVE_CATEGORIES,
     categories
 });
 
