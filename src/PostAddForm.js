@@ -6,7 +6,8 @@ import {
     getPost,
     registerChangeData,
     savePost,
-    togglePostEdition
+    togglePostEdition,
+    closePostEdition
 } from './Post/actions/index'
 import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
@@ -21,7 +22,7 @@ class PostAddForm extends Component {
     }
 
     handleSubmit = (e) => {
-        const {createPost, editPost, post, backToCategory} = this.props
+        const {createPost, editPost, post, backToCategory, closePostEdition} = this.props
         e.preventDefault();
 
         if (post.id) {
@@ -33,6 +34,8 @@ class PostAddForm extends Component {
             //togglePostEdition(null)
             backToCategory(post.category)
         }
+        closePostEdition()
+
     }
 
     onChange = (id, data) => {
@@ -71,7 +74,7 @@ class PostAddForm extends Component {
                                 onChange={(e) => this.onChange(post.id, {category: e.target.value})}
                                 className="form-control"
                             >
-                                {showCategoriesList.map((category) =>
+                                {(showCategoriesList.length > 0) && showCategoriesList.map((category) =>
                                     <option key={categories[category].path}
                                             value={categories[category].path}>{categories[category].name}</option>
                                 )}
@@ -101,7 +104,8 @@ const mapDispatchToProps = (dispatch) => {
         togglePostEdition: (postId) => dispatch(togglePostEdition(postId)),
         registerChangeData: (postId, data) => dispatch(registerChangeData(postId, data)),
         fetchCategories: () => dispatch(fetchCategories()),
-        backToCategory: (category) => dispatch(backToCategory(category))
+        backToCategory: (category) => dispatch(backToCategory(category)),
+        closePostEdition: () => dispatch(closePostEdition())
     }
 }
 

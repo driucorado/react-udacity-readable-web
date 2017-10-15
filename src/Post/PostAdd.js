@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {createPost, editPost, getPost, registerChangeData, savePost, togglePostEdition} from './actions'
+import {createPost, editPost, getPost, registerChangeData, savePost, togglePostEdition, closePostEdition} from './actions'
 import {connect} from 'react-redux'
 
 class PostAdd extends Component {
 
     handleSubmit = (e) => {
-        const {createPost, editPost, togglePostEdition, post, isPostPage} = this.props
+        const {createPost, editPost, togglePostEdition, post, isPostPage, closePostEdition} = this.props
         e.preventDefault();
 
         if (post.id) {
@@ -15,6 +15,7 @@ class PostAdd extends Component {
             createPost(post)
             togglePostEdition(null)
         }
+        closePostEdition()
     }
 
     onChange = (id, data) => {
@@ -70,7 +71,8 @@ const mapDispatchToProps = (dispatch) => {
         editPost: (post) => dispatch(editPost(post)),
         createPost: (post) => dispatch(createPost(post)),
         togglePostEdition: (postId) => dispatch(togglePostEdition(postId)),
-        registerChangeData: (postId, data) => dispatch(registerChangeData(postId, data))
+        registerChangeData: (postId, data) => dispatch(registerChangeData(postId, data)),
+        closePostEdition: () => dispatch(closePostEdition())
     }
 }
 

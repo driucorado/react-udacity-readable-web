@@ -2,6 +2,7 @@ export const CHANGE_POST_DATA = "CHANGE_DATA"
 
 export const ADD_POST = 'ADD_POST'
 export const OPEN_POST_EDITION = 'OPEN_POST_EDITION'
+export const CLOSE_POST_EDITION = "CLOSE_POST_EDITION"
 
 export const UPDATE_POST = 'UPDATE_POST'
 export const REMOVE_POST = 'REMOVE_POST'
@@ -18,3 +19,4 @@ export const PREPARE_ADD_POST = 'PREPARE_ADD_POST'
 
 export const SAVE_POST = 'SAVE_POST'
 export const EMPTY_CURRENT_POST = 'EMPTY_CURRENT_POST'
+

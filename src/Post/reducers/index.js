@@ -4,6 +4,7 @@ import {
     CHANGE_POST_DATA,
     EMPTY_CURRENT_POST,
     OPEN_POST_EDITION,
+    CLOSE_POST_EDITION,
     ORDER_POSTS_BY_TIME,
     ORDER_POSTS_BY_VOTE,
     PREPARE_ADD_POST,
@@ -57,11 +58,13 @@ export function post(state = initialState, action) {
                 posts: {...state.posts, [action.post.id]: action.post},
                 list: [...state.list, action.post.id]
             }
-        //post
+        //pot
+        case CLOSE_POST_EDITION:
+            return {...state, openPostEdition: false}
         case OPEN_POST_EDITION:
             if (action.postId) {
                 return {
-                    ...state, openPostEdition: !state.openPostEdition,
+                    ...state, openPostEdition: true,
                     currentPost: action.postId,
                     posts: {...state.posts, [action.postId]: {...state.posts[action.postId]}}
                 }
@@ -69,7 +72,7 @@ export function post(state = initialState, action) {
                 return {
                     ...state,
                     currentPost: null,
-                    openPostEdition: !state.openPostEdition,
+                    openPostEdition: true,
                     newPost: {...initialStateNewPost}
                 }
             }

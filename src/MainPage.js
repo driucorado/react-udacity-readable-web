@@ -4,16 +4,17 @@ import CategoryList from './Category/CategoryList'
 import {getAllPosts, togglePostEdition} from './Post/actions'
 import PostList from './Post/PostList'
 import {Link} from 'react-router-dom'
-import {backToCategory} from "./Post/actions/index";
+import {backToCategory, closePostEdition} from "./Post/actions/index";
 import './style/css/Main/style/main.css'
 import {connect} from 'react-redux'
 
 class MainPage extends Component {
 
     componentDidMount() {
-        const {getAllPosts, backToCategory} = this.props
+        const {getAllPosts, backToCategory, closePostEdition} = this.props
         backToCategory()
         getAllPosts()
+        closePostEdition()
     }
 
     render() {
@@ -43,7 +44,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllPosts: () => dispatch(getAllPosts()),
         togglePostEdition: (postId) => dispatch(togglePostEdition(postId)),
-        backToCategory: () => dispatch(backToCategory(null))
+        backToCategory: () => dispatch(backToCategory(null)),
+        closePostEdition: () => dispatch(closePostEdition())
     }
 }
 

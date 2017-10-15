@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {deletePost, orderPostsByTime, orderPostsByVote, ratingPost, togglePostEdition} from './actions'
+import {deletePost, orderPostsByTime, orderPostsByVote, ratingPost, togglePostEdition, closePostEdition} from './actions'
 import {connect} from 'react-redux'
 import PostItem from './PostItem'
 import PostAdd from './PostAdd'
@@ -34,9 +34,14 @@ class PostList extends Component {
         ratingPost(newPost, option)
     }
 
+    toggleEditPost = () => {
+        const {togglePostEdition, openPostEdition, closePostEdition} = this.props
+        if (openPostEdition) { closePostEdition() } else {
+        togglePostEdition() }
+    }
 
     render() {
-        const {posts, deletePost, list, openPostEdition, togglePostEdition, currentPost} = this.props
+        const {posts, deletePost, list, openPostEdition, currentPost, togglePostEdition} = this.props
         return (
             <div className="post-list">
                 <div>
@@ -74,7 +79,7 @@ class PostList extends Component {
                                 currentPost={currentPost}
                                 voteOptions={VoteOption}
                                 post={posts[post]}
-                                togglePostEdition={togglePostEdition}
+                                togglePostEdition={this.toggleEditPost}
                                 votePost={this.votePost}
                                 deletePost={deletePost}/>
                         ))}
@@ -91,7 +96,8 @@ function mapDispatchToProps(dispatch) {
         deletePost: (postId) => dispatch(deletePost(postId)),
         orderPostsByVote: () => dispatch(orderPostsByVote()),
         orderPostsByTime: () => dispatch(orderPostsByTime()),
-        togglePostEdition: () => dispatch(togglePostEdition())
+        togglePostEdition: () => dispatch(togglePostEdition()),
+        closePostEdition: () => dispatch(closePostEdition())
     }
 }
 

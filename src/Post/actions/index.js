@@ -4,6 +4,7 @@ import {
     CHANGE_POST_DATA,
     EMPTY_CURRENT_POST,
     OPEN_POST_EDITION,
+    CLOSE_POST_EDITION,
     ORDER_POSTS_BY_TIME,
     ORDER_POSTS_BY_VOTE,
     RECEIVE_POST,
@@ -14,6 +15,10 @@ import {
     VOTE_POST
 } from '../types'
 import * as PostAPI from '../../api/PostApi'
+
+export function closePostEdition() {
+    return {type:CLOSE_POST_EDITION}
+}
 
 export function emptyCurrentPost() {
     return {type: EMPTY_CURRENT_POST}
